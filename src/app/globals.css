@@ -1,26 +1,64 @@
 @import "tailwindcss";
+@import "@heroui/styles";
 
 :root {
+  /* Background & Text */
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #3d403f;
+
+  /* Brand Colors */
+  --primary: #f99f1d;
+  --primary-foreground: #ffffff;
+
+  --secondary: #3d403f;
+  --secondary-foreground: #ffffff;
+
+  /* UI Colors */
+  --card: #f8f8f8;
+  --border: #e5e7eb;
+  --muted: #6b7280;
+}
+
+.dark {
+  --background: #121212;
+  --foreground: #f5f5f5;
+
+  --primary: #f99f1d;
+  --primary-foreground: #121212;
+
+  --secondary: #3d403f;
+  --secondary-foreground: #ffffff;
+
+  --card: #1e1e1e;
+  --border: #2f2f2f;
+  --muted: #a1a1aa;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
 }
