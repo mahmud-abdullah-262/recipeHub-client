@@ -1,6 +1,7 @@
 import {  Outfit, Radio_Canada } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
+import { Toast } from "@heroui/react";
 
 
 const radioCanada = Radio_Canada({
@@ -22,12 +23,16 @@ export default function RootLayout({ children }) {
     suppressHydrationWarning
       lang="en"
      
-      className={`${radioCanada.variable} h-full antialiased`}
+      className={`${radioCanada.variable} h-full antialiased `}
     >
+         <Toast.Provider />
       <body className={`font-Radio-Canada min-h-full flex flex-col ${radioCanada.className}`}>
-         <ThemeProvider attribute='class' defaultTheme="system" enableSystem> 
-           {children}
-        </ThemeProvider>
+      
+        
+            {children}
+        
+           
+    
         
        </body>
     </html>
