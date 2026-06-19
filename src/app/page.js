@@ -1,8 +1,11 @@
 import Image from "next/image";
 import Navbar from "./components/Navbar";
+import { getSessionData } from "@/lib/action/getSession";
 
-export default function Home() {
+
+export default async function Home() {
+  const user = await getSessionData()
   return (
-  <Navbar></Navbar>
+  <Navbar user={user}></Navbar>
   );
 }

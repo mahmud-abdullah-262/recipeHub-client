@@ -1,10 +1,12 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 
-const MainLayout = ({children}) => {
+
+const MainLayout = async ({children}) => {
+const user = {}
   return (
     <>
-    <Navbar></Navbar>
+    <Navbar user={user}></Navbar>
    {children}
     </>
    
