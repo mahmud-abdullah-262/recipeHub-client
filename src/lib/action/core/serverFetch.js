@@ -36,5 +36,5 @@ export const protectedFetch = async (path) => {
 
   );
   const data = await res.json();
-  return handleStatusCode(data);
+  return data;
 }

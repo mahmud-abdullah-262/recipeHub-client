@@ -9,7 +9,10 @@ const DashboardLayoutPage = async ({children}) => {
     <div className='flex'>
 
   <DashboardLayout user={user}></DashboardLayout>
-    {children}
+  <main className='lg:pl-66'>
+ {children}
+  </main>
+   
     </div>
   );
 };
