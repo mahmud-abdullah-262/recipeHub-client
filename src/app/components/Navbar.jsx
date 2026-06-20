@@ -23,6 +23,13 @@ const Navbar =  ({user})  => {
     },
 
   ]
+  if(user){
+    navLinks.push({
+      label: 'Dashboard',
+      href: `/${user.role}Dashboard`,
+      
+    })
+  }
   return (
     <>
     <div className='flex justify-between items-center w-11/12 mx-auto gap-2 sm:gap-4 p-2'>
