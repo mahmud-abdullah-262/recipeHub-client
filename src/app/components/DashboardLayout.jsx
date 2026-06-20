@@ -1,49 +1,44 @@
 
 'use client'
-import {LayoutSideContentLeft, Plus, Briefcase, Gear, House, Magnifier, Person, LayoutHeaderSideContent, MagnifierPlus, BookmarkFill, FileText, CreditCard, Factory} from "@gravity-ui/icons";
-import {Button, Drawer} from "@heroui/react";
+import {LayoutSideContentLeft, Plus, Briefcase, Gear, House, Magnifier, Person, LayoutHeaderSideContent, MagnifierPlus, Bookmark, Flame, CreditCard, FileExclamation, Heart} from "@gravity-ui/icons";
+import {Avatar, Button, Card, Drawer} from "@heroui/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const seekerNavLinks = [
-  { icon: LayoutHeaderSideContent,      label: "Dashboard",    href: "/seekerDashboard" },
-  { icon: MagnifierPlus, label: "Jobs",         href: "/seekerDashboard/jobs" },
-  { icon: BookmarkFill,  label: "Saved Jobs",   href: "/seekerDashboard/savedjobs" },
-  { icon: FileText,      label: "Applications", href: "/seekerDashboard/applications" },
-  { icon: CreditCard,    label: "Billing",      href: "/seekerDashboard/billing" },
-  { icon: Gear,          label: "Settings",     href: "/seekerDashboard/settings" },
+const userNavLinks = [
+  { icon: LayoutHeaderSideContent,      label: "Dashboard",    href: "/userDashboard" },
+  { icon: MagnifierPlus, label: "Add Recipe",         href: "/userDashboard/addRecipe" },
+  { icon: Bookmark,  label: "My Recipes",   href: "/userDashboard/myRecipes" },
+  { icon: CreditCard,      label: "My Purchased Recipes", href: "/userDashboard/myPurchased" },
+  { icon: Heart,    label: "Favorites",      href: "/userDashboard/favorites" },
+  { icon: Person,          label: "Profile",     href: "/userDashboard/profile" },
 ];
 
-const recruiterNavLinks = [
-  { icon: House,    label: "Home",          href: "/recruiterdashboard" },
-  { icon: Plus,     label: "Create a job",   href: "/recruiterdashboard/new" },
-  { icon: Briefcase, label: "All Jobs",       href: "/recruiterdashboard/recruiteralljobs" },
-  { icon: Person,   label: "Profile",        href: "/recruiterdashboard/recruitercompany" },
-  { icon: Gear,     label: "Settings",       href: "/recruiterdashboard/settings" },
-];
+
 
 const adminNavLinks = [
   { icon: LayoutHeaderSideContent, label: "Dashboard",  href: "/adminDashboard" },
   { icon: Person,                  label: "Users",      href: "/adminDashboard/users" },
-  { icon: Factory,                label: "Companies",  href: "/adminDashboard/companies" },
-  { icon: Briefcase,               label: "Jobs",       href: "/adminDashboard/jobs" },
-  { icon: CreditCard,              label: "Payments",   href: "/adminDashboard/payments" },
-  { icon: Gear,                    label: "Settings",   href: "/adminDashboard/settings" },
+  { icon: Flame,                label: "Recipes",  href: "/adminDashboard/recipes" },
+  { icon: FileExclamation,               label: "Reports",       href: "/adminDashboard/reports" },
+  { icon: CreditCard,              label: "Transactions",   href: "/adminDashboard/transactions" },
 ];
 
 const navLinkMappings = {
-  seeker : seekerNavLinks,
-  recruiter : recruiterNavLinks,
+  user : userNavLinks,
   admin: adminNavLinks
 }
 
+const DashboardLayout = ({user}) => {
 
-export function DashboardLayout({user}) {
-
+ 
+  
+  
   const pathname = usePathname();
   if(!user?.role) return null
- const navItems = navLinkMappings[user?.role] ?? []
-  const navLinks =    <nav>
+   const navItems = navLinkMappings[user?.role] ?? []
+     const navLinks =    
+     <nav>
       {navItems.map(({ icon: Icon, label, href }) => (
         <Link
           key={href}
@@ -55,14 +50,15 @@ export function DashboardLayout({user}) {
         </Link>
       ))}
     </nav>
-
-
   return (
-    <>
-    <aside className="hidden lg:block w-64 border-r p-4 border-default">
-      {navLinks}
+    <div className="flex flex-col justify-between h-screen border-r border-default">
+
+
+
+    <aside className="hidden lg:block w-64  p-4">
+    {navLinks}
     </aside>
-    <Drawer >
+  <Drawer >
       <Button className={'lg:hidden'} variant="secondary">
         <LayoutSideContentLeft />
         Menu
@@ -78,7 +74,85 @@ export function DashboardLayout({user}) {
         </Drawer.Content>
       </Drawer.Backdrop>
     </Drawer>
-    </>
+
     
+{/* profile */}
+<Card className="w-64 rounded-none border-t border-default">
+      <Card.Header className="flex items-center gap-3">
+        <Avatar
+          name={user.name}
+          size="lg"
+          className="shrink-0"
+        />
+
+        <div>
+          <Card.Title className="capitalize">
+            {user.name}
+          </Card.Title>
+          <Card.Description>
+            {user.role}
+          </Card.Description>
+        </div>
+      </Card.Header>
+
+      <Card.Content>
+        <div className="space-y-1 text-sm">
+          <p>
+            <span className="font-medium">ID:</span>{" "}
+          {user.id}
+          </p>
+          <p className="truncate">
+            <span className="font-medium">Email:</span>{" "}
+            {user.email}
+          </p>
+        </div>
+      </Card.Content>
+
+      <Card.Footer>
+        <span className="text-xs text-default-500 capitalize">
+          {user.role} Account
+        </span>
+      </Card.Footer>
+    </Card>
+    </div>
   );
-}
+};
+
+export default DashboardLayout;
+
+
+
+
+
+
+
+// export function DashboardLayout({user}) {
+
+
+
+
+
+//   return (
+//     <>
+  
+//     
+    // <Drawer >
+    //   <Button className={'lg:hidden'} variant="secondary">
+    //     <LayoutSideContentLeft />
+    //     Menu
+    //   </Button>
+    //   <Drawer.Backdrop>
+    //     <Drawer.Content placement="left">
+    //       <Drawer.Dialog>
+    //         <Drawer.CloseTrigger />
+    //         <Drawer.Body>
+    //           {navLinks}
+    //         </Drawer.Body>
+    //       </Drawer.Dialog>
+    //     </Drawer.Content>
+    //   </Drawer.Backdrop>
+    // </Drawer>
+//     </>
+    
+//   );
+// }

@@ -1,14 +1,17 @@
 import { getSessionData } from '@/lib/action/getSession';
 import React from 'react';
+import DashboardLayout from '../components/DashboardLayout';
 
-const DashboardLayout = ({children}) => {
-  const user = getSessionData()
+
+const DashboardLayoutPage = async ({children}) => {
+  const user = await getSessionData()
   return (
-    <>
-    <DashboardLayout user={user}></DashboardLayout>
+    <div className='flex'>
+
+  <DashboardLayout user={user}></DashboardLayout>
     {children}
-    </>
+    </div>
   );
 };
 
-export default DashboardLayout;
+export default DashboardLayoutPage;
