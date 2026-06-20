@@ -8,6 +8,7 @@ import { MobileNavbar } from './MobileNavbar';
 
 
 import { authClient } from '@/lib/auth-client';
+import { Button } from '@heroui/react';
 
 const Navbar =  ({user})  => {
  
@@ -63,13 +64,14 @@ const Navbar =  ({user})  => {
       >Sign Out</Link>
 
       <Link href={'/profile'}>
-        <Image
+      <Button>Profile</Button>
+        {/* <Image
         src={user?.photo || null}
         width={50}
         height={50}
         alt='profile'
         className='w-8 h-8  object-center object-cover rounded-full'
-        />
+        /> */}
       </Link>
       
      
