@@ -1,53 +1,12 @@
 "use client";
 
-import { postRecipe } from "@/lib/action/postRecipe";
-import { authClient } from "@/lib/auth-client";
-import {CirclePlus, TrashBin, PaperPlane} from "@gravity-ui/icons";
-import {
-  Button,
-  Description,
-  FieldError,
-  FieldGroup,
-  Fieldset,
-  Form,
-  Input,
-  Label,
-  TextArea,
-  TextField,
-  Select,
-  ListBox,
-  toast
-} from "@heroui/react";
-import { useState } from "react";
+import {CirclePlus, Envelope, PaperPlane, Pencil, TrashBin} from "@gravity-ui/icons";
+import {Button, FieldError, Form, Input, Label, Modal, Surface, TextField, Select, ListBox, TextArea, Description, toast} from "@heroui/react";
+import { PostRecipe } from "./PostRecipe";
 import { ImageUpload } from "./ImageUpload";
-import { useRouter } from "next/navigation";
-
-
-
-// {
-//   "recipeName": "Chicken Biryani",
-//   "recipeImage": "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a",
-//   "category": "Main Course",
-//   "cuisineType": "Bangladeshi",
-//   "difficultyLevel": "Medium",
-//   "preparationTime": 90,
-//   "ingredients": [
-//     "1 kg chicken",
-//     "500g basmati rice",
-//     "2 onions",
-//     "2 tbsp ginger garlic paste",
-//     "Biryani masala"
-//   ],
-//   "instructions": [
-//     "Marinate the chicken.",
-//     "Cook the rice separately.",
-//     "Layer chicken and rice.",
-//     "Cook on low heat for 30 minutes."
-//   ]
-// }
-
-
-
+import { useState } from "react";
+import { updateRecipe } from "@/lib/action/updateRecipe";
+import { reload } from "../(dashboard)/userDashboard/myRecipes/page";
 
 const categories = [
   "Main Course",
@@ -84,80 +43,96 @@ const cuisineTypes = [
 
 const difficultyLevel =[ "Super", "Hard", "Medium", "Easy", "EasyPasy" ]
 
-
-export function PostRecipe() {
-   const router = useRouter()
-  const { data: session, isPending, error } = authClient.useSession();
-  const user = session?.user;
-  console.log(user, 'user from post recipe page')
-  const [ingredients, setIngredients] = useState([""]);
-  const [imageUrl, setImageUrl] = useState("")
-  const handleIngredientChange = (index, value) => {
-  const updated = [...ingredients];
-  updated[index] = value;
-  setIngredients(updated);
-};
-
-const addIngredientField = () => {
-  setIngredients([...ingredients, ""]);
-};
-
-const removeIngredientField = (index) => {
-  if (ingredients.length === 1) return; // অন্তত একটা field থাকবে
-  setIngredients(ingredients.filter((_, i) => i !== index));
-};
-
-const cleanIngredients = ingredients
-  .map((item) => item.trim())
-  .filter((item) => item !== "");
-
-if (cleanIngredients.length === 0) {
-  toast.danger('at least 1 ingredient needed.')
-}
-
-
-
-const onSubmit = async (e) => {
-    e.preventDefault();
-    
-    const form = e.currentTarget; 
-    const formData = new FormData(form);
-    
-    
-    const formProps = Object.fromEntries(formData);
+export function EditRecipe({recipe, user}) {
+  console.log(recipe, 'recipe')
+    const [ingredients, setIngredients] = useState(recipe?.ingredients);
+    const [imageUrl, setImageUrl] = useState(recipe.imageUrl)
+    const handleIngredientChange = (index, value) => {
+    const updated = [...ingredients];
+    updated[index] = value;
+    setIngredients(updated);
+  };
   
-    const data = {
-      ...formProps, 
-      ingredients: cleanIngredients,
-      authorId: user?.id,
-      authorName: user?.name,
-      authorEmail: user?.email,
-      likesCount: 0,
-      isFeatured: false,
-      status: 'published'
+  const addIngredientField = () => {
+    setIngredients([...ingredients, ""]);
+  };
+  
+  const removeIngredientField = (index) => {
+    if (ingredients.length === 1) return; // অন্তত একটা field থাকবে
+    setIngredients(ingredients.filter((_, i) => i !== index));
+  };
+  
+  const cleanIngredients = ingredients
+    .map((item) => item.trim())
+    .filter((item) => item !== "");
+  
+  if (cleanIngredients.length === 0) {
+    toast.danger('at least 1 ingredient needed.')
+  }
+  
+  
+  
+  const onSubmit = async (e) => {
+      e.preventDefault();
+      
+      const form = e.currentTarget; 
+      const formData = new FormData(form);
+      
+      
+      const formProps = Object.fromEntries(formData);
+    
+      const data = {
+        ...formProps, 
+        id: recipe._id,
+        ingredients: cleanIngredients,
+        authorId: user?.id,
+        authorName: user?.name,
+        authorEmail: user?.email,
+        likesCount: 0,
+        isFeatured: false,
+        status: 'published'
+      };
+  
+      console.log(data, 'data from client');
+  
+      try {
+        const uploadData = await updateRecipe(`/api/recipes`, data, "PATCH");
+  
+        if (uploadData) {
+          console.log('found upload data', uploadData)
+          toast.success("Recipe published successfully!");
+          
+          reload()
+          console.log('reload called')
+        }
+  
+      } catch (error) {
+        console.error("Error uploading recipe:", error);
+        toast.error(error?.message || "Failed to publish recipe.");
+      } finally {
+        console.log("Submission process completed.");
+      }
     };
 
-    console.log(data, 'data from client');
-
-    try {
-      const uploadData = await postRecipe(data);
-
-      if (uploadData) {
-        toast.success("Recipe published successfully!");
-        form.reset(); 
-        router.refresh();
-      }
-
-    } catch (error) {
-      console.error("Error uploading recipe:", error);
-      toast.error(error?.message || "Failed to publish recipe.");
-    } finally {
-      console.log("Submission process completed.");
-    }
-  };
 
   return (
-    <Form className="w-full mx-auto" onSubmit={onSubmit}>
+    <div className="w-full">
+     <Modal>
+      <Button className={'bg-white'}><Pencil className='w-4 h-4 text-primary' /></Button>
+      <Modal.Backdrop>
+        <Modal.Container placement="auto">
+          <Modal.Dialog className="max-w-5xl">
+            <Modal.CloseTrigger />
+            <Modal.Header>
+              <Modal.Icon className="bg-accent-soft text-accent-soft-foreground">
+                <Pencil className="size-5 text-primary" />
+              </Modal.Icon>
+              <Modal.Heading>Edit Recipe</Modal.Heading>
+              
+            </Modal.Header>
+            <Modal.Body className="p-6">
+              <Surface variant="default">
+                <Form className="w-full mx-auto" onSubmit={onSubmit}>
       <div className="flex flex-col gap-6">
         
         {/* ২-কলাম গ্রিড লেআউট (image_409656.png এর স্টাইলে) */}
@@ -170,6 +145,7 @@ const onSubmit = async (e) => {
             {/* recipe name */}
             <TextField
               isRequired
+              defaultValue={recipe.recipeName}
               name="recipeName"
               className="w-full"
               validate={(value) => value.length < 3 ? "Name must be at least 3 characters" : null}
@@ -183,14 +159,21 @@ const onSubmit = async (e) => {
             </TextField>
 
             {/* recipe category */}
-            <Select className="w-full" placeholder="Select one" name="category">
+            <Select 
+            className="w-full" 
+            placeholder="Select one" 
+            name="category"
+            defaultSelectedKeys={recipe?.category ? [recipe.category] : []}
+            >
               <Label className="text-secondary font-medium mb-1">Choose A Category</Label>
               <Select.Trigger className="bg-white border-[#e5e7eb] rounded-xl">
                 <Select.Value />
                 <Select.Indicator />
               </Select.Trigger>
               <Select.Popover>
-                <ListBox>
+                <ListBox 
+                selectionMode="single"
+                defaultSelectedKeys={recipe?.category ? [recipe.category] : []}>
                   {categories.map((c, ind) => (
                     <ListBox.Item key={ind} id={c} textValue={c}>
                       {c}
@@ -245,7 +228,7 @@ const onSubmit = async (e) => {
             </Select>
 
             {/* Preparation Time */}
-            <TextField isRequired name="preparationTime" className="w-full">
+            <TextField isRequired name="preparationTime" className="w-full" defaultValue={recipe.preparationTime}>
               <Label className="text-secondary font-medium mb-1">Preparation Time</Label>
               <Input 
                 placeholder="90 Minutes / 1.5 Hour" 
@@ -301,6 +284,7 @@ const onSubmit = async (e) => {
             isRequired
             name="instructions"
             className="w-full"
+            defaultValue={recipe.instructions}
             validate={(value) => value.length < 10 ? "Instructions must be at least 10 characters" : null}
           >
             <Label className="text-primary font-bold text-lg mb-2 block">Instructions</Label>
@@ -332,5 +316,14 @@ const onSubmit = async (e) => {
 
       </div>
     </Form>
+              </Surface>
+            </Modal.Body>
+            
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
+    </Modal> 
+    </div>
+    
   );
 }
