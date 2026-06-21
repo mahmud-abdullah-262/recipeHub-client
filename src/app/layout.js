@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
       className={`${radioCanada.variable} h-full antialiased `}
     >
          <Toast.Provider />
-      <body className={`font-Radio-Canada min-h-full flex flex-col  ${radioCanada.className}`}>
+      <body className={`font-Radio-Canada min-h-full flex flex-col ${radioCanada.className}`}>
       
         
             {children}

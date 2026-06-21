@@ -100,7 +100,7 @@ export function EditRecipe({recipe, user}) {
   
         if (uploadData) {
           console.log('found upload data', uploadData)
-          toast.success("Recipe published successfully!");
+          toast.success("Recipe Updated successfully!");
           
           reload()
           console.log('reload called')
@@ -310,7 +310,7 @@ export function EditRecipe({recipe, user}) {
             className="bg-[#f99f1d] text-white font-medium px-6 py-2 rounded-xl shadow-sm transition-all hover:opacity-90"
             startContent={<PaperPlane size={16} />}
           >
-            Post Recipe
+            Update Recipe
           </Button>
         </div>
 
