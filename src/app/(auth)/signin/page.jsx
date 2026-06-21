@@ -10,7 +10,8 @@ import { useRouter } from "next/navigation";
 
 import React from 'react';
 import Image from 'next/image';
-import { signIn } from '@/lib/auth-client';
+import { authClient, signIn } from '@/lib/auth-client';
+import { Icon } from '@iconify/react';
  // এখানে সাইন ইন পেজে সাইন ইন ইম্পোর্ট করতে হবে
 
 
@@ -69,6 +70,13 @@ const SignUpPage = () => {
       setLoading(false);        
     }
   };
+
+  const handleGoogleLogin = async () => {
+      await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+    }
 
 
 
@@ -159,15 +167,26 @@ const SignUpPage = () => {
       </TextField>
 
 
-      <div className="flex gap-2">
-        <Button type="submit" className={'bg-primary'}>
+      <div className="flex gap-2 w-full max-w-xs ">
+        <Button type="submit" className={'bg-primary flex-1'}>
           <Check />
           login
         </Button>
-        <Button type="reset" variant="secondary" className={'text-primary'}>
+        <Button type="reset" variant="secondary" className={'text-primary flex-1'}>
           Reset
         </Button>
       </div>
+
+
+        <div className="flex w-full max-w-xs flex-col gap-3">
+              <Button
+              onClick={handleGoogleLogin}
+              className="w-full bg-primary" variant="primary">
+                <Icon icon="devicon:google" />
+                Sign in with Google
+              </Button>
+              </div>
+
       <p className='text-sm text-primary text-center'>Don't Have Account? <Link className='font-bold' href={'/signup'}>Sign up</Link></p>
     </Form>
     <div className='h-full w-auto hidden md:block'>

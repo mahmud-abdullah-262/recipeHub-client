@@ -63,15 +63,11 @@ const Navbar =  ({user})  => {
       href={'/signin'}
       >Sign Out</Link>
 
-      <Link href={'/profile'}>
-      <Button>Profile</Button>
-        {/* <Image
-        src={user?.photo || null}
-        width={50}
-        height={50}
-        alt='profile'
-        className='w-8 h-8  object-center object-cover rounded-full'
-        /> */}
+      <Link 
+      className='bg-primary px-4 py-1 rounded-2xl font-black text-sm text-white' 
+      href={'/profile'}>
+     
+     Profile
       </Link>
       
      

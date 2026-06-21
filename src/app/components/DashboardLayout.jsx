@@ -52,12 +52,20 @@ const DashboardLayout = ({user}) => {
       ))}
     </nav>
   return (
-    <div className="fixed left-0 top-0 z-40 flex h-screen w-64 flex-col justify-between border-r border-default ">
+    <div className="fixed left-0 top-0 z-40 flex ">
 
 
   {/* টপ সেকশন: নেভিগেশন লিঙ্কস */}
-  <div className="flex-1 overflow-y-auto p-4">
-    <Link href={'/'}>
+  <div className="flex-1 overflow-y-auto">
+    
+    
+
+
+    {/* ডেস্কটপ ভিউ */}
+    <aside className="hidden md:flex flex-col justify-between border-r border-default h-screen w-64">
+
+<div className="p-4">
+     <Link href={'/'}>
     <Image
     src={'/images/recipehub-logo.png'}
     width={200}
@@ -66,35 +74,14 @@ const DashboardLayout = ({user}) => {
     className="w-24 h-auto mb-4"
     />
     </Link>
-    
 
-
-    {/* ডেস্কটপ ভিউ */}
-    <aside className="hidden lg:block">
       {navLinks}
-    </aside>
+</div>
+   
 
-    {/* মোবাইল ভিউ (ড্রয়ার) */}
-    <Drawer>
-      <Button className="lg:hidden w-full justify-start" variant="secondary">
-        <LayoutSideContentLeft />
-        Menu
-      </Button>
-      <Drawer.Backdrop>
-        <Drawer.Content placement="right"> {/* ড্রয়ার ডানপাশ থেকে আসার জন্য placement="right" করা হয়েছে */}
-          <Drawer.Dialog>
-            <Drawer.CloseTrigger />
-            <Drawer.Body>
-              {navLinks}
-            </Drawer.Body>
-          </Drawer.Dialog>
-        </Drawer.Content>
-      </Drawer.Backdrop>
-    </Drawer>
-  </div>
 
-  {/* বটম সেকশন: প্রোফাইল কার্ড */}
-  <Card className="w-full rounded-none border-t border-default shrink-0">
+ {/* বটম সেকশন: প্রোফাইল কার্ড */}
+  <Card className=" w-full rounded-none border-t border-default shrink-0 self-end">
     <Card.Header className="flex items-center gap-3">
       <Avatar
         name={user.name}
@@ -128,6 +115,33 @@ const DashboardLayout = ({user}) => {
       </span>
     </Card.Footer>
   </Card>
+    </aside>
+
+    {/* মোবাইল ভিউ (ড্রয়ার) */}
+<Drawer>
+  {/* বাটনটিকে স্ক্রিনের নিচে এবং মাঝখানে ফিক্সড করার জন্য ক্লাস আপডেট করা হয়েছে */}
+  <Button 
+    className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 shadow-lg px-6 py-3 rounded-full text-primary" 
+    variant="secondary"
+  >
+    <LayoutSideContentLeft />
+    Menu
+  </Button>
+  
+  <Drawer.Backdrop>
+    <Drawer.Content placement="left"> 
+      <Drawer.Dialog>
+        <Drawer.CloseTrigger />
+        <Drawer.Body>
+          {navLinks}
+        </Drawer.Body>
+      </Drawer.Dialog>
+    </Drawer.Content>
+  </Drawer.Backdrop>
+</Drawer>
+  </div>
+
+ 
 </div>
   );
 };
