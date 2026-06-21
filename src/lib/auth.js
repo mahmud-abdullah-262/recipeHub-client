@@ -7,19 +7,32 @@ const client = new MongoClient(process.env.MONGODB_CONNECTION);
 const db = client.db('recipe-hub-server');
 
 export const auth = betterAuth({
-  database: mongodbAdapter(db, {
+   baseURL: process.env.NEXT_PUBLIC_BASE_URL, 
+
+   database: mongodbAdapter(db, {
     // Optional: if you don't provide a client, database transactions won't be enabled.
     client
   }),
+
+    socialProviders: {
+        google: { 
+            clientId: process.env.GOOGLE_CLIENT_ID, 
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET, 
+        }, 
+    },
+
+
     emailAndPassword: { 
     enabled: true, 
   },
+
   user: {
-    additionalFields: {
-      role: {
-        default: 'user'
-      },
-     
-    }
-  }
+  additionalFields: {
+    role: {
+      type: "string",
+      defaultValue: "user",
+      input: false, // user নিজে signup এর সময় role পাঠাতে পারবে না
+    },
+  },
+},
 });

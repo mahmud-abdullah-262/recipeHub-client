@@ -9,7 +9,7 @@ const DashboardLayoutPage = async ({children}) => {
     <div className='flex'>
 
   <DashboardLayout user={user}></DashboardLayout>
-  <main className='lg:pl-66'>
+  <main className='w-full md:pl-66'>
  {children}
   </main>
    

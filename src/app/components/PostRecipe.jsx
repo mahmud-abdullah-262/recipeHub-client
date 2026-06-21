@@ -2,7 +2,7 @@
 
 import { postRecipe } from "@/lib/action/postRecipe";
 import { authClient } from "@/lib/auth-client";
-import {FloppyDisk, LogoTelegram} from "@gravity-ui/icons";
+import {CirclePlus, TrashBin, PaperPlane} from "@gravity-ui/icons";
 import {
   Button,
   Description,
@@ -19,6 +19,8 @@ import {
   toast
 } from "@heroui/react";
 import { useState } from "react";
+import { ImageUpload } from "./ImageUpload";
+import { useRouter } from "next/navigation";
 
 
 
@@ -84,10 +86,12 @@ const difficultyLevel =[ "Super", "Hard", "Medium", "Easy", "EasyPasy" ]
 
 
 export function PostRecipe() {
+   const router = useRouter()
   const { data: session, isPending, error } = authClient.useSession();
   const user = session?.user;
   console.log(user, 'user from post recipe page')
   const [ingredients, setIngredients] = useState([""]);
+  const [imageUrl, setImageUrl] = useState("")
   const handleIngredientChange = (index, value) => {
   const updated = [...ingredients];
   updated[index] = value;
@@ -113,179 +117,220 @@ if (cleanIngredients.length === 0) {
 
 
 
-  const onSubmit = async (e) => {
+const onSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const {recipeName, category, cuisineType, difficultyLevel, preparationTime} = formData
+    
+    const form = e.currentTarget; 
+    const formData = new FormData(form);
+    
+    
+    const formProps = Object.fromEntries(formData);
+  
     const data = {
-        recipeName,
-        category,
-        cuisineType,
-        difficultyLevel,
-        preparationTime,
-        ingredients : cleanIngredients,
-        authorId: user?.id,
-        authorName: user?.name,
-        authorEmail: user?.email,
-        likesCount: 0,
-        isFeatured: false,
-        status: 'published'
+      ...formProps, 
+      ingredients: cleanIngredients,
+      authorId: user?.id,
+      authorName: user?.name,
+      authorEmail: user?.email,
+      likesCount: 0,
+      isFeatured: false,
+      status: 'published'
     };
 
-    // Convert FormData to plain object
-    formData.forEach((value, key) => {
-      data[key] = value.toString();
-    });
-    console.log(data, 'data form client')
-    const uploadData = await postRecipe(data)
-    
+    console.log(data, 'data from client');
+
+    try {
+      const uploadData = await postRecipe(data);
+
+      if (uploadData) {
+        toast.success("Recipe published successfully!");
+        form.reset(); 
+        router.refresh();
+      }
+
+    } catch (error) {
+      console.error("Error uploading recipe:", error);
+      toast.error(error?.message || "Failed to publish recipe.");
+    } finally {
+      console.log("Submission process completed.");
+    }
   };
 
   return (
-    <Form className="w-full max-w-96" onSubmit={onSubmit}>
-      <Fieldset>
-        <FieldGroup>
+    <Form className="w-full mx-auto" onSubmit={onSubmit}>
+      <div className="flex flex-col gap-6">
+        
+        {/* ২-কলাম গ্রিড লেআউট (image_409656.png এর স্টাইলে) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          
+          {/* কার্ড ১: বেসিক ইনফরমেশন */}
+          <div className="bg-[#f8f8f8] p-6 rounded-2xl border border-[#e5e7eb] flex flex-col gap-4">
+            <h3 className="text-lg font-bold text-primary mb-2">Recipe Info</h3>
+            
+            {/* recipe name */}
+            <TextField
+              isRequired
+              name="recipeName"
+              className="w-full"
+              validate={(value) => value.length < 3 ? "Name must be at least 3 characters" : null}
+            >
+              <Label className="text-secondary font-medium mb-1">Recipe Name</Label>
+              <Input 
+                placeholder="Chicken Biryani" 
+                className="bg-white rounded-xl border-[#e5e7eb]"
+              />
+              <FieldError className="text-danger text-xs mt-1" />
+            </TextField>
 
-{/* recipe name */}
-          <TextField
-            isRequired
-            name="recipeName"
-            validate={(value) => {
-              if (value.length < 3) {
-                return "Name must be at least 3 characters";
-              }
+            {/* recipe category */}
+            <Select className="w-full" placeholder="Select one" name="category">
+              <Label className="text-secondary font-medium mb-1">Choose A Category</Label>
+              <Select.Trigger className="bg-white border-[#e5e7eb] rounded-xl">
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  {categories.map((c, ind) => (
+                    <ListBox.Item key={ind} id={c} textValue={c}>
+                      {c}
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+            </Select>
 
-              return null;
-            }}
-          >
-            <Label>Recipe Name</Label>
-            <Input placeholder="Chicken Biryani" />
-            <FieldError />
-          </TextField>
+            {/* cuisineType */}
+            <Select className="w-full" placeholder="Select one" name="cuisineType">
+              <Label className="text-secondary font-medium mb-1">Cuisine Type</Label>
+              <Select.Trigger className="bg-white border-[#e5e7eb] rounded-xl">
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  {cuisineTypes.map((c, ind) => (
+                    <ListBox.Item key={ind} id={c} textValue={c}>
+                      {c}
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+            </Select>
+          </div>
 
-{/* recipe category */}
-<Select className="w-[256px]" placeholder="Select one" name="category">
-      <Label>Choose A category</Label>
-      <Select.Trigger>
-        <Select.Value />
-        <Select.Indicator />
-      </Select.Trigger>
-      <Select.Popover>
-        <ListBox>
-            {categories.map( (c, ind) => 
-            <ListBox.Item key={ind} id={c} textValue={c}>
-            {c}
-            <ListBox.ItemIndicator />
-          </ListBox.Item>)}
-        </ListBox>
-      </Select.Popover>
-    </Select>
+          {/* কার্ড ২: ডিটেইলস ও টাইমিং */}
+          <div className="bg-[#f8f8f8] p-6 rounded-2xl border border-[#e5e7eb] flex flex-col gap-4">
+            <h3 className="text-lg font-bold text-primary mb-2">Details & Timing</h3>
 
-     {/* cuisineType */}
-<Select className="w-[256px]" placeholder="Select one" name="cuisineType">
-      <Label>Cuisine Type</Label>
-      <Select.Trigger>
-        <Select.Value />
-        <Select.Indicator />
-      </Select.Trigger>
-      <Select.Popover>
-        <ListBox>
-            {cuisineTypes.map( (c, ind) => 
-            <ListBox.Item key={ind} id={c} textValue={c}>
-            {c}
-            <ListBox.ItemIndicator />
-          </ListBox.Item>)}
-        </ListBox>
-      </Select.Popover>
-    </Select>
+            {/* Difficulty Level */}
+            <Select className="w-full" placeholder="Select one" name="difficultyLevel">
+              <Label className="text-secondary font-medium mb-1">Difficulty Level</Label>
+              <Select.Trigger className="bg-white border-[#e5e7eb] rounded-xl">
+                <Select.Value />
+                <Select.Indicator />
+              </Select.Trigger>
+              <Select.Popover>
+                <ListBox>
+                  {difficultyLevel.map((c, ind) => (
+                    <ListBox.Item key={ind} id={c} textValue={c}>
+                      {c}
+                      <ListBox.ItemIndicator />
+                    </ListBox.Item>
+                  ))}
+                </ListBox>
+              </Select.Popover>
+            </Select>
 
-     {/* DifficultyLevel */}
-<Select className="w-[256px]" placeholder="Select one" name="difficultyLevel">
-      <Label>Difficulty Level</Label>
-      <Select.Trigger>
-        <Select.Value />
-        <Select.Indicator />
-      </Select.Trigger>
-      <Select.Popover>
-        <ListBox>
-            {difficultyLevel.map( (c, ind) => 
-            <ListBox.Item key={ind} id={c} textValue={c}>
-            {c}
-            <ListBox.ItemIndicator />
-          </ListBox.Item>)}
-        </ListBox>
-      </Select.Popover>
-    </Select>
+            {/* Preparation Time */}
+            <TextField isRequired name="preparationTime" className="w-full">
+              <Label className="text-secondary font-medium mb-1">Preparation Time</Label>
+              <Input 
+                placeholder="90 Minutes / 1.5 Hour" 
+                className="bg-white rounded-xl border-[#e5e7eb]"
+              />
+              <FieldError className="text-danger text-xs mt-1" />
+            </TextField>
 
-{/* recipe name */}
-          <TextField
-            isRequired
-            name="preparationTime"
-          >
-            <Label>Preparation Time</Label>
-            <Input placeholder="90 Minutes / 1.5 Hour" />
-            <FieldError />
-          </TextField>
+            {/* photo upload */}
+            <div className="flex flex-col gap-1">
+              <label className="text-secondary text-sm font-medium">Recipe Photo</label>
+              <ImageUpload value={imageUrl} onChange={(url) => setImageUrl(url)} />
+            </div>
+          </div>
 
+        </div>
 
-{/* ingredients */}
-<div className="flex flex-col gap-2">
-  <label className="text-sm font-medium">Ingredients</label>
+        {/* কার্ড ৩: উপাদানের তালিকা (ফুল উইডথ কার্ড) */}
+        <div className="bg-[#f8f8f8] p-6 rounded-2xl border border-[#e5e7eb]">
+          <h3 className="text-lg font-bold text-primary mb-4">Ingredients</h3>
+          <div className="flex flex-col gap-3">
+            {ingredients.map((ingredient, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <Input
+                  placeholder="e.g. 1 kg chicken"
+                  value={ingredient}
+                  onChange={(e) => handleIngredientChange(index, e.target.value)}
+                  className="bg-white rounded-xl border-[#e5e7eb] flex-1"
+                />
+                <Button
+                  isIconOnly
+                  className="text-danger-500 bg-transparent text-secondary hover:bg-danger-50 min-w-10 h-10 rounded-xl"
+                  onPress={() => removeIngredientField(index)}
+                >
+                  <TrashBin size={18} />
+                </Button>
+              </div>
+            ))}
 
-  {ingredients.map((ingredient, index) => (
-    <div key={index} className="flex items-center gap-2">
-      <Input
-        placeholder="e.g. 1 kg chicken"
-        value={ingredient}
-        onChange={(e) => handleIngredientChange(index, e.target.value)}
-      />
-      <Button
-        isIconOnly
-        color="danger"
-        variant="light"
-        onPress={() => removeIngredientField(index)}
-      >
-        ✕
-      </Button>
-    </div>
-  ))}
+            <Button 
+              className="bg-white border border-[#e5e7eb] text-secondary hover:bg-gray-50 rounded-xl font-medium mt-2 self-start"
+              onPress={addIngredientField}
+              startContent={<CirclePlus size={16} />}
+            >
+              Add Ingredient
+            </Button>
+          </div>
+        </div>
 
-  <Button variant="flat" onPress={addIngredientField}>
-    + Add Ingredient
-  </Button>
-</div>
-
+        {/* কার্ড ৪: প্রস্তুত প্রণালী (ফুল উইডথ কার্ড) */}
+        <div className="bg-[#f8f8f8] p-6 rounded-2xl border border-[#e5e7eb]">
           <TextField
             isRequired
             name="instructions"
-            validate={(value) => {
-              if (value.length < 10) {
-                return "instructions must be at least 10 characters";
-              }
-
-              return null;
-            }}
+            className="w-full"
+            validate={(value) => value.length < 10 ? "Instructions must be at least 10 characters" : null}
           >
-            <Label>Instructions</Label>
-            <TextArea placeholder="How to Cook Your Recipe?" />
-            <Description>Minimum 10 characters</Description>
-            <FieldError />
+            <Label className="text-primary font-bold text-lg mb-2 block">Instructions</Label>
+            <TextArea 
+              placeholder="How to Cook Your Recipe?" 
+              className="bg-white rounded-xl border-[#e5e7eb] min-h-32"
+            />
+            <Description className="text-[#6b7280] text-xs mt-1">Minimum 10 characters</Description>
+            <FieldError className="text-danger text-xs mt-1" />
           </TextField>
+        </div>
 
-
-
-
-        </FieldGroup>
-        <Fieldset.Actions>
-          <Button type="submit">
-            <LogoTelegram />
-           Post Recipe
-          </Button>
-          <Button type="reset" variant="secondary">
+        {/* অ্যাকশন বাটনসমূহ (ডান পাশে এলাইন করা, ইমেজ অনুযায়ী) */}
+        <div className="flex justify-end items-center gap-3 mt-4">
+          <Button 
+            type="reset" 
+            className="bg-white border border-[#e5e7eb] text-secondary font-medium px-6 py-2 rounded-xl transition-all"
+          >
             Cancel
           </Button>
-        </Fieldset.Actions>
-      </Fieldset>
+          <Button 
+            type="submit" 
+            className="bg-[#f99f1d] text-white font-medium px-6 py-2 rounded-xl shadow-sm transition-all hover:opacity-90"
+            startContent={<PaperPlane size={16} />}
+          >
+            Post Recipe
+          </Button>
+        </div>
+
+      </div>
     </Form>
   );
 }
