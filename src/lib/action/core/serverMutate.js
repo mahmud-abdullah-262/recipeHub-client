@@ -13,15 +13,16 @@ export const authHeader = async () => {
 
 // server mutation central function
 export const serverMutate = async (path, data, method = 'POST') => {
+  const isDeleteOrGet = ['GET', 'DELETE'].includes(method.toUpperCase());
 const res = await fetch(`${baseUrl}${path}`, {
     method: method.toUpperCase(),
     headers: {
       'Content-Type': 'application/json',
       ... await authHeader()
     },
-    body: JSON.stringify(data),
+    body: isDeleteOrGet? undefined : JSON.stringify(data),
   });
   const result = await res.json();
-  // console.log(result , 'data after post')
+  console.log(result , 'data after post')
   return result;
 }
