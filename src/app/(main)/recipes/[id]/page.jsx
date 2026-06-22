@@ -1,14 +1,20 @@
 
+import Reaction from '@/app/components/Reaction';
 import { protectedFetch } from '@/lib/action/core/serverFetch';
-import { Button, Chip } from "@heroui/react";
+import { getSessionData } from '@/lib/action/getSession';
+import { makeFavorite } from '@/lib/action/makeFavorite';
+import { ThumbsUpFill, TriangleExclamationFill } from '@gravity-ui/icons';
+import { Button, Chip, toast } from "@heroui/react";
 import { Heart, Clock, Utensils, Users, CheckCircle2, AlertTriangle } from "lucide-react";
 import Image from 'next/image';
 
 const RecipeDetailsPage = async ({params}) => {
+  
   const {id} = await params
   const recipe = await protectedFetch(`/api/recipes/${id}`)
-
-   
+  const user = await getSessionData()
+  const userId = user.id;
+  
 
 
 
@@ -46,13 +52,8 @@ const RecipeDetailsPage = async ({params}) => {
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground capitalize tracking-tight">
                   {recipe.recipeName}
                 </h1>
-                <Button
-                  isIconOnly
-                  variant="light"
-                  className="text-muted hover:text-primary transition-colors"
-                >
-                  <Heart className="w-6 h-6 fill-primary text-primary" />
-                </Button>
+               <Reaction userId={userId} recipe={recipe} ></Reaction>
+                
               </div>
 
               {/* অথর ও রিয়েক্ট কাউন্ট */}
