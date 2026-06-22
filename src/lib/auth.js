@@ -33,7 +33,11 @@ export const auth = betterAuth({
       defaultValue: "user",
       input: false, // user নিজে signup এর সময় role পাঠাতে পারবে না
     },
-    
+    plan: {
+      type: "string",
+      defaultValue: "free",
+      input: false, // user নিজে signup এর সময় role পাঠাতে পারবে না
+    },
   },
 },
 });

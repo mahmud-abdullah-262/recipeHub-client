@@ -1,7 +1,7 @@
 'use client'
 import { makeFavorite } from '@/lib/action/makeFavorite';
 import { ThumbsUpFill, TriangleExclamationFill } from '@gravity-ui/icons';
-import { Button } from '@heroui/react';
+import { Button, toast } from '@heroui/react';
 import { Heart } from 'lucide-react';
 import React from 'react';
 
@@ -16,12 +16,15 @@ const Reaction = ({userId, recipe}) => {
             const uploadData = await makeFavorite('/app/myFavorites', favoriteRecipe)
       console.log(uploadData, 'data from client');
       
-            if (uploadData) {
-              toast.success("Recipe Favorite successfully!");
+            if (uploadData.success) {
+              toast.success( uploadData.message || "Recipe Favorite successfully!");
+            }
+            else{
+              toast.danger(uploadData.message)
             }
       
           } catch (error) {
-            console.error("Error making Favorite recipe:", error);
+            
             toast.error(error?.message || "Failed to Favorite recipe.");
           } finally {
             console.log("Submission process completed.");
