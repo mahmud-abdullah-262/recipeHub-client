@@ -1,7 +1,10 @@
 import { getFavoriteRecipes } from '@/lib/action/getFavoriteRecipes';
 import { getSessionData } from '@/lib/action/getSession';
 import React from 'react';
-import {Table} from "@heroui/react";
+import {Button, Table} from "@heroui/react";
+import { ArrowUpRightFromSquare } from 'lucide-react';
+import Link from 'next/link';
+import { TrashBin } from '@gravity-ui/icons';
 
 const favoritesPage = async () => {
   const user = await getSessionData()
@@ -22,6 +25,7 @@ const favoritesPage = async () => {
             <Table.Column className={'text-primary'} >Cuisine Type</Table.Column>
             <Table.Column className={'text-primary'} >Difficulty Level</Table.Column>
             <Table.Column className={'text-primary'} >Author Name</Table.Column>
+            <Table.Column className={'text-primary'} >Actions</Table.Column>
           </Table.Header>
           <Table.Body>
 
@@ -31,6 +35,24 @@ const favoritesPage = async () => {
               <Table.Cell>{recipe.cuisineType}</Table.Cell>
               <Table.Cell>{recipe.difficultyLevel}</Table.Cell>
               <Table.Cell>{recipe.authorName}</Table.Cell>
+              <Table.Cell>
+                
+                <Link href={`/recipes/${recipe.recipeId}`}><ArrowUpRightFromSquare/></Link> 
+                
+                 <Button 
+                      isIconOnly 
+                      variant="light" 
+                      color="danger" 
+                      aria-label="Delete recipe"
+                      // onClick={async() => 
+                        
+                      //  await deleteRecipe(recipe._id)
+                       
+                      // }
+                    >
+                      <TrashBin width={16} height={16} style={{ color: '#e53935' }} />
+                    </Button>
+                </Table.Cell>
             </Table.Row>
         
        )}

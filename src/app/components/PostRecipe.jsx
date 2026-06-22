@@ -24,27 +24,7 @@ import { useRouter } from "next/navigation";
 
 
 
-// {
-//   "recipeName": "Chicken Biryani",
-//   "recipeImage": "https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a",
-//   "category": "Main Course",
-//   "cuisineType": "Bangladeshi",
-//   "difficultyLevel": "Medium",
-//   "preparationTime": 90,
-//   "ingredients": [
-//     "1 kg chicken",
-//     "500g basmati rice",
-//     "2 onions",
-//     "2 tbsp ginger garlic paste",
-//     "Biryani masala"
-//   ],
-//   "instructions": [
-//     "Marinate the chicken.",
-//     "Cook the rice separately.",
-//     "Layer chicken and rice.",
-//     "Cook on low heat for 30 minutes."
-//   ]
-// }
+
 
 
 

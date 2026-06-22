@@ -1,10 +1,11 @@
 'use client'
 import React, { useState } from 'react';
-import { Card, toast } from "@heroui/react";
+import { Card, Chip, toast } from "@heroui/react";
 import Image from 'next/image';
 import { Crown, CheckCircle, ArrowRight } from "lucide-react";
 import { useRouter } from 'next/navigation';
 import { updateProfile } from '@/lib/action/updateProfile';
+import { CircleFill } from '@gravity-ui/icons';
 
 export default function ProfileCard({user}) {
   const router = useRouter();
@@ -80,6 +81,18 @@ export default function ProfileCard({user}) {
           </Card.Title>
           <Card.Description className="text-sm font-medium text-muted uppercase tracking-wider">
             {userData?.role}
+
+            {userData?.plan == 'free' ?
+            <Chip variant="primary">
+          <CircleFill width={6} />
+          <Chip.Label>{userData.plan}</Chip.Label>
+        </Chip>
+            : 
+            <Chip color="warning" variant="primary">
+          <CircleFill width={6} />
+          <Chip.Label>{userData.plan}</Chip.Label>
+        </Chip>
+            }
           </Card.Description>
         </div>
       </div>
@@ -216,13 +229,20 @@ export default function ProfileCard({user}) {
           Active Premium Account
         </div>
       ) : (
-        <button 
-          onClick={onUpgrade}
-          className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-medium bg-primary text-primary-foreground hover:opacity-95 hover:scale-[1.01] transition-all duration-150 shadow-md shadow-primary/20 text-sm"
+        
+        <form action="/api/checkout_sessions" method="POST">
+          <input type='hidden' name='plan_id' value={'Recipehub_Premium'}></input>
+      <section>
+        <button type="submit" role="link"
+        className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-medium bg-primary text-primary-foreground hover:opacity-95 hover:scale-[1.01] transition-all duration-150 shadow-md shadow-primary/20 text-sm"
         >
-          Go Premium 
-          <ArrowRight className="w-4 h-4" />
+           Go Premium
+            <ArrowRight className="w-4 h-4" />
         </button>
+      </section>
+    </form>
+        
+       
       )}
     </Card.Footer>
   </Card>
