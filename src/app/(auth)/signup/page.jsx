@@ -39,7 +39,7 @@ const SignUpPage = () => {
         email,
         password,
         name,
-        photo,
+        image: photo,
         role: 'user',
         callbackURL: "/",
       });

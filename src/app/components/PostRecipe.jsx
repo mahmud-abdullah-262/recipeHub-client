@@ -128,6 +128,7 @@ const onSubmit = async (e) => {
   
     const data = {
       ...formProps, 
+      recipeImage: imageUrl,
       ingredients: cleanIngredients,
       authorId: user?.id,
       authorName: user?.name,

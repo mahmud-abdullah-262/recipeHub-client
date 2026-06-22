@@ -34,7 +34,7 @@ export default function MyRecipes({recipes, user}) {
           
           <Table.Body>
             {recipes.map((recipe) => (
-              <Table.Row key={recipe.id}>
+              <Table.Row key={recipe._id}>
                 <Table.Cell>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                      <Image

@@ -1,9 +1,12 @@
+import ProfileCard from '@/app/components/ProfileCard';
+import { getSessionData } from '@/lib/action/getSession';
 import React from 'react';
 
-const ProfilePage = () => {
+const ProfilePage = async () => {
+  const user = await getSessionData()
   return (
-    <div>
-      <h1>Profile Page</h1>
+    <div className='w-11/12 mx-auto'>
+     <ProfileCard user={user}></ProfileCard>
     </div>
   );
 };
