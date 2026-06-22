@@ -7,19 +7,18 @@ export default function RecipeCard({ recipe }) {
   console.log(recipe._id, 'from brows recipe')
   const { recipeName, cuisineType, likesCount } = recipe;
 
-  // ছবির জন্য ব্যাকআপ ডামি ইউআরএল (যদি ডাটাতে ছবি না থাকে)
-  const recipeImage = recipe.image || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=500&auto=format&fit=crop";
+  
 
   return (
     <Card className="relative h-[250px] sm:h-[300px] md:h-[550px] overflow-hidden border border-border bg-card rounded-sm">
       {/* রেসিপির ছবি */}
       <Image
-        alt={recipeName}
+        alt={recipe?.recipeName}
         width={600}
         height={600}
         aria-hidden="true"
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 hover:scale-105"
-        src={recipeImage}
+        src={recipe?.recipeImage}
       />
 
       {/* ছবির ওপর হালকা কালো শেড (যাতে টেক্সট সহজে পড়া যায়) */}

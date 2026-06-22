@@ -2,25 +2,15 @@
 import { protectedFetch } from '@/lib/action/core/serverFetch';
 import { Button, Chip } from "@heroui/react";
 import { Heart, Clock, Utensils, Users, CheckCircle2, AlertTriangle } from "lucide-react";
+import Image from 'next/image';
 
 const RecipeDetailsPage = async ({params}) => {
   const {id} = await params
   const recipe = await protectedFetch(`/api/recipes/${id}`)
 
-   const {
-    recipeName = "Roast Chicken with Lemon and Garlic",
-    category = "Appetizer",
-    cuisineType = "Indian",
-    difficultyLevel = "Medium",
-    preparationTime = "1 hour",
-    ingredients = ["1 whole chicken", "2 lemons, sliced", "6 cloves garlic", "2 tbsp olive oil", "1 tsp dried thyme"],
-    instructions = "Thoroughly clean hands and surfaces. Do not thaw chicken at room temperature. Invest in a reliable meat thermometer.",
-    authorName = "Babor",
-    likesCount = 120,
-  } = recipe;
+   
 
-  // আপলোড করা ছবির মতই একটি আকর্ষণীয় ডিফল্ট চিকেন রোস্টের ছবি
-  const recipeImage = "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?q=80&w=1000&auto=format&fit=crop";
+
 
   return (
    <main className="min-height-100vh bg-background text-foreground p-4 sm:p-6 md:p-8">
@@ -31,9 +21,11 @@ const RecipeDetailsPage = async ({params}) => {
           
           {/* বাম পাশ: ইমেজ সেকশন */}
           <div className="relative h-[250px] sm:h-[350px] md:h-full min-h-[300px] rounded-xl overflow-hidden border border-border">
-            <img
-              src={recipeImage}
-              alt={recipeName}
+            <Image
+              src={recipe.recipeImage}
+              alt={recipe.recipeName}
+              width={500}
+              height={500}
               className="absolute inset-0 w-full h-full object-cover"
             />
             <div className="absolute top-3 right-3">
@@ -41,7 +33,7 @@ const RecipeDetailsPage = async ({params}) => {
                 className="bg-primary text-primary-foreground font-bold"
                 size="sm"
               >
-                {category}
+                {recipe.category}
               </Chip>
             </div>
           </div>
@@ -52,7 +44,7 @@ const RecipeDetailsPage = async ({params}) => {
               {/* শিরোনাম এবং লাইক */}
               <div className="flex justify-between items-start gap-4">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground capitalize tracking-tight">
-                  {recipeName}
+                  {recipe.recipeName}
                 </h1>
                 <Button
                   isIconOnly
@@ -65,7 +57,7 @@ const RecipeDetailsPage = async ({params}) => {
 
               {/* অথর ও রিয়েক্ট কাউন্ট */}
               <p className="text-xs sm:text-sm text-muted mt-1">
-                By <span className="font-medium text-foreground">{authorName}</span> • {likesCount} Likes
+                By <span className="font-medium text-foreground">{recipe.authorName}</span> • {recipe.likesCount} Likes
               </p>
 
               {/* কুইক মেটা ডাটা গ্রিড (টাইম, ডিফিকাল্টি ইত্যাদি) */}
@@ -73,17 +65,17 @@ const RecipeDetailsPage = async ({params}) => {
                 <div className="flex flex-col items-center justify-center p-1">
                   <Clock className="w-5 h-5 text-primary mb-1" />
                   <span className="text-[10px] uppercase tracking-wider text-muted font-bold">Time</span>
-                  <span className="text-xs sm:text-sm font-semibold">{preparationTime}</span>
+                  <span className="text-xs sm:text-sm font-semibold">{recipe?.preparationTime}</span>
                 </div>
                 <div className="flex flex-col items-center justify-center p-1 border-x border-border">
                   <Utensils className="w-5 h-5 text-primary mb-1" />
                   <span className="text-[10px] uppercase tracking-wider text-muted font-bold">Cuisine</span>
-                  <span className="text-xs sm:text-sm font-semibold capitalize">{cuisineType}</span>
+                  <span className="text-xs sm:text-sm font-semibold capitalize">{recipe?.cuisineType}</span>
                 </div>
                 <div className="flex flex-col items-center justify-center p-1">
                   <Users className="w-5 h-5 text-primary mb-1" />
                   <span className="text-[10px] uppercase tracking-wider text-muted font-bold">Difficulty</span>
-                  <span className="text-xs sm:text-sm font-semibold">{difficultyLevel}</span>
+                  <span className="text-xs sm:text-sm font-semibold">{recipe?.difficultyLevel}</span>
                 </div>
               </div>
             </div>
@@ -94,7 +86,7 @@ const RecipeDetailsPage = async ({params}) => {
                 Ingredients
               </h2>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                {ingredients.map((item, index) => (
+                {recipe?.ingredients.map((item, index) => (
                   <li key={index} className="flex items-center gap-2 text-muted">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                     <span>{item}</span>
@@ -139,7 +131,7 @@ const RecipeDetailsPage = async ({params}) => {
             </h2>
             <div className="bg-card border border-border rounded-xl p-4 sm:p-5">
               <p className="text-sm text-muted leading-relaxed whitespace-pre-line">
-                {instructions}
+                {recipe?.instructions}
               </p>
             </div>
           </div>

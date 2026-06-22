@@ -6,9 +6,7 @@ import Image from 'next/image';
 import React from 'react';
 import MyRecipes from '@/app/components/MyRecipes';
 
- export const reload = () => {
-    window.location.reload();
-  }
+ 
   
 const myRecipesPage =  async () => {
   const user = await getSessionData()

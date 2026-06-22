@@ -1,4 +1,68 @@
 # RecipeHub — ৫ দিনের সম্পূর্ণ ডেভেলপমেন্ট রোডম্যাপ
+Authentication & Authorization
+
+done - Better Auth দিয়ে Credential + Google OAuth লগইন
+done - JWT টোকেন HTTPOnly কুকিতে রাখা
+verify এবং verifyAdmin middleware দিয়ে রাউট প্রোটেকশন
+done - পেজ রিফ্রেশ করলেও auth state persist থাকতে হবে
+
+User Role
+
+done - 5. Recipe যুক্ত করা (ফ্রি ইউজার সর্বোচ্চ ২টা, প্রিমিয়াম হলে আনলিমিটেড)
+
+done - 6. সমস্ত রেসিপি UI-তে ব্রাউজ করা
+
+7. Recipe ফেভারিট করা
+
+8. Category অনুযায়ী filter করা (MongoDB $in দিয়ে)
+
+9. প্রোফাইল আপডেট করা
+
+Admin Role
+
+10. ইউজার ম্যানেজমেন্ট (manage users)
+
+11. রেসিপি ম্যানেজমেন্ট (manage recipes)
+
+12. রিপোর্ট রিভিউ করা (reports review)
+Payment
+
+13. Stripe দিয়ে রেসিপি পারচেজ করা
+
+14. Stripe দিয়ে প্রিমিয়াম মেম্বারশিপ নেওয়া
+Image / Media
+
+15. imgbb দিয়ে রেসিপি ইমেজ আপলোড
+Other Features
+
+16. Server-side pagination
+
+17. Dark/Light theme toggle
+
+18. হোমপেজে Framer Motion animation
+
+19. কাস্টম 404 পেজ
+Database Collections
+
+20. users, recipes, favorites, reports, payments — এই কালেকশনগুলো ডিজাইন করা
+Full Marks-এর জন্য Technical Requirement (ফাংশনালিটি না হলেও জরুরি)
+
+21. Client-এ ২০+ কমিট, Server-এ ১২+ কমিট
+
+22. Client README লেখা
+
+23. Env ফাইলে credentials সিকিউর রাখা
+
+24. Responsive ও professional UI
+
+25. CORS/404/504 ইস্যু না থাকা
+Submission Deliverables
+
+26. Admin email/password জমা দেওয়া
+
+27. Live site link
+
+28. Client ও Server — দুটোর GitHub রিপো লিংক
 
 ## কেন এই অর্ডারে কাজ করবে
 

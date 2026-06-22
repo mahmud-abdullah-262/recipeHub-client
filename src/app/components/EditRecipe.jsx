@@ -6,7 +6,9 @@ import { PostRecipe } from "./PostRecipe";
 import { ImageUpload } from "./ImageUpload";
 import { useState } from "react";
 import { updateRecipe } from "@/lib/action/updateRecipe";
-import { reload } from "../(dashboard)/userDashboard/myRecipes/page";
+import { useRouter } from "next/navigation";
+
+
 
 const categories = [
   "Main Course",
@@ -44,6 +46,7 @@ const cuisineTypes = [
 const difficultyLevel =[ "Super", "Hard", "Medium", "Easy", "EasyPasy" ]
 
 export function EditRecipe({recipe, user}) {
+  const router = useRouter()
   console.log(recipe, 'recipe')
     const [ingredients, setIngredients] = useState(recipe?.ingredients);
     const [imageUrl, setImageUrl] = useState(recipe.imageUrl)
@@ -101,8 +104,8 @@ export function EditRecipe({recipe, user}) {
         if (uploadData) {
           console.log('found upload data', uploadData)
           toast.success("Recipe Updated successfully!");
-          
-          reload()
+          router.refresh()
+        
           console.log('reload called')
         }
   
