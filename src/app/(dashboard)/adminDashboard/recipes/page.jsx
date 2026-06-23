@@ -1,11 +1,16 @@
 import React from 'react';
+import AdminRecipes from './AdminRecipes';
+import { serverFetch } from '@/lib/action/core/serverFetch';
+import { getSessionData } from '@/lib/action/getSession';
 
-const AdminRecipes = () => {
+const page = async () => {
+  const recipes = await serverFetch('/api/recipes');
+  const user = await getSessionData()
   return (
     <div>
-      <h1>Admin Recipe</h1>
+      <AdminRecipes recipes={recipes} user={user} > </AdminRecipes>
     </div>
   );
 };
 
-export default AdminRecipes;
+export default page;
