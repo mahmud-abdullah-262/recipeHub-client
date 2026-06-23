@@ -52,7 +52,7 @@ const RecipeDetailsPage = async ({params}) => {
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground capitalize tracking-tight">
                   {recipe.recipeName}
                 </h1>
-               <Reaction userId={userId} recipe={recipe} ></Reaction>
+               <Reaction user={user}  recipe={recipe} ></Reaction>
                 
               </div>
 
