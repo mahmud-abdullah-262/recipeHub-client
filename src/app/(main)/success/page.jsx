@@ -35,7 +35,15 @@ export default async function Success({ searchParams }) {
 
     const subsInfo = {
       customerEmail: customerEmail,
-      planId : metadata.planId
+      planId : metadata.planId,
+    }
+
+    if(metadata.recipeId !== ""){
+      subsInfo.recipeId = metadata.recipeId
+    }
+
+    if(metadata.recipeName !== ""){
+      subsInfo.recipeName = metadata.recipeName
     }
 
     const submit = await postSubs('/api/subs', subsInfo);

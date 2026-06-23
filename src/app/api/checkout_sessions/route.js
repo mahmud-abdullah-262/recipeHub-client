@@ -12,8 +12,18 @@ export async function POST(request) {
 
     const formData = await request.formData()
     const planId = formData.get('plan_id')
+    const recipeId = formData.get('recipeId')
+    const recipeName = formData.get('recipeName')
     const priceId = PRICE_ID[planId]
     // Create Checkout Sessions from body params.
+
+    const metadata = {planId}
+    if(recipeId !== "") {
+      metadata.recipeId = recipeId
+    }
+     if(recipeName !== "") {
+      metadata.recipeName = recipeName
+    }
     const session = await stripe.checkout.sessions.create({
       customer_email: user?.email,
       line_items: [
@@ -24,7 +34,7 @@ export async function POST(request) {
         },
       ],
       mode: 'payment',
-      metadata: {planId},
+      metadata: metadata,
       success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
     });
     return NextResponse.redirect(session.url, 303)

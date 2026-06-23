@@ -17,7 +17,7 @@ export default function ProfileCard({user}) {
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(userData?.name);
   const [editImage, setEditImage] = useState();
-  const isPremium = userData.role === "premium";
+  const isPremium = userData.plan === "Recipehub_Premium";
   const onUpgrade = () => {
 
   }
@@ -193,7 +193,7 @@ export default function ProfileCard({user}) {
       }`}>
         <Crown className="w-6 h-6" />
       </div>
-      <div className='text-left'>
+      <div className='text-center'>
         <Card.Title className="text-lg font-bold tracking-tight text-foreground">
           {isPremium ? "Premium Member" : "Upgrade to Premium"}
         </Card.Title>
@@ -226,7 +226,7 @@ export default function ProfileCard({user}) {
       {isPremium ? (
         <div className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 text-sm border border-amber-500/20">
           <CheckCircle className="w-4 h-4" />
-          Active Premium Account
+        Premium Account  Activated 
         </div>
       ) : (
         
