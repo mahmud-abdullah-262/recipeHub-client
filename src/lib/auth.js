@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { MongoClient } from "mongodb";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { role } from "better-auth/client";
+import { admin } from "better-auth/plugins";
 
 const client = new MongoClient(process.env.MONGODB_CONNECTION);
 const db = client.db('recipe-hub-server');
@@ -31,13 +32,21 @@ export const auth = betterAuth({
     role: {
       type: "string",
       defaultValue: "user",
-      input: false, // user নিজে signup এর সময় role পাঠাতে পারবে না
+      input: false,
     },
     plan: {
       type: "string",
       defaultValue: "free",
-      input: false, // user নিজে signup এর সময় role পাঠাতে পারবে না
+      input: false, 
+    },
+    blocked: {
+      type: Boolean,
+      defaultValue: false,
+      input: false, 
     },
   },
 },
+ plugins: [
+        admin() 
+    ]
 });

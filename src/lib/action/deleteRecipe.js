@@ -1,6 +1,7 @@
 'use server'
 import { revalidatePath } from "next/cache"
 import { authHeader } from "./core/serverFetch";
+import { toast } from "@heroui/react";
 
 
 export const deleteRecipe = async (recipeId) => {
@@ -28,6 +29,7 @@ export const deleteRecipe = async (recipeId) => {
     // যদি ডাটা সফলভাবে ডিলিট হয়, তবে পেজ রিভ্যালিডেট হবে
     if (result && result.deletedCount > 0) {
       revalidatePath('/userDashboard/myRecipes');
+      toast.success('Recipe Deleted Successfully!')
       return { success: true, result };
     }
 
@@ -35,6 +37,7 @@ export const deleteRecipe = async (recipeId) => {
 
   } catch (error) {
     console.error("Delete Action Error:", error.message);
+    toast.warning('Recipe did not deleted')
     return { success: false, error: error.message };
   }
 }
