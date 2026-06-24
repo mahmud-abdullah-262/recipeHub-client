@@ -62,3 +62,6 @@ body {
   color: var(--foreground);
   min-height: 100vh;
 }
+.active {
+  background-color: #e8e8e8;
+}

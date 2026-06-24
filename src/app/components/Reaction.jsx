@@ -2,9 +2,10 @@
 import { protectedFetch } from '@/lib/action/core/serverFetch';
 import { makeFavorite } from '@/lib/action/makeFavorite';
 import { ThumbsUpFill, TriangleExclamationFill } from '@gravity-ui/icons';
-import { Button, toast } from '@heroui/react';
+import { Button, toast, Tooltip } from '@heroui/react';
 import { Heart } from 'lucide-react';
 import React from 'react';
+import { ReportRecipe } from './ReportRecipe';
 
 // এখানে userEmail প্রপস হিসেবে পাস করতে পারেন অথবা আপনার কনটেক্সট থেকে নিতে পারেন
 const Reaction = ({ user, recipe }) => {
@@ -65,8 +66,11 @@ const Reaction = ({ user, recipe }) => {
 };
 
   return (
-    <div>
-      <div className="flex gap-2 mb-4">
+  <div>
+  <div className="flex gap-2 mb-4">
+    {/* Like Tooltip */}
+    <Tooltip>
+      <Tooltip.Trigger>
         <Button
           isIconOnly
           variant="light"
@@ -74,7 +78,16 @@ const Reaction = ({ user, recipe }) => {
         >
           <ThumbsUpFill className="w-6 h-6 fill-primary text-primary" />
         </Button>
-        
+      </Tooltip.Trigger>
+      <Tooltip.Content>
+        <Tooltip.Arrow />
+        Like
+      </Tooltip.Content>
+    </Tooltip>
+    
+    {/* Favorite Tooltip */}
+    <Tooltip>
+      <Tooltip.Trigger>
         <Button
           isIconOnly
           onClick={handleFavorite}
@@ -83,31 +96,40 @@ const Reaction = ({ user, recipe }) => {
         >
           <Heart className="w-6 h-6 fill-primary text-primary" />
         </Button>
-        
-        <Button
-          isIconOnly
-          variant="light"
-          className="text-muted hover:text-primary transition-colors"
-        >
-          <TriangleExclamationFill className="w-6 h-6 fill-primary text-primary" />
-        </Button>
-      </div>
+      </Tooltip.Trigger>
+      <Tooltip.Content>
+        <Tooltip.Arrow />
+        Make favorite
+      </Tooltip.Content>
+    </Tooltip>
+    
+    {/* Report Tooltip */}
+    <Tooltip>
+      <Tooltip.Trigger>
+        <ReportRecipe user={user} recipe={recipe}/>
+      </Tooltip.Trigger>
+      <Tooltip.Content>
+        <Tooltip.Arrow />
+        Report
+      </Tooltip.Content>
+    </Tooltip>
+  </div>
 
-      {/* 🟢 onSubmit-এ সরাসরি handleFormSubmit ফাংশনটি দেওয়া হয়েছে */}
-      <form onSubmit={handleFormSubmit} action="/api/checkout_sessions" method="POST">
-        <input type='hidden' name='plan_id' value={'Recipehub_Random_Recipe'} />
-        <input type='hidden' name='recipeId' value={recipe?._id} />
-        <input type='hidden' name='recipeName' value={recipe?.recipeName} />
-        <section>
-          <button 
-            type="submit" 
-            className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-medium bg-primary text-primary-foreground hover:opacity-95 hover:scale-[1.01] transition-all duration-150 shadow-md shadow-primary/20 text-sm"
-          >
-            Buy Recipe
-          </button>
-        </section>
-      </form>
-    </div>
+  {/* 🟢 onSubmit-এ সরাসরি handleFormSubmit ফাংশনটি দেওয়া হয়েছে */}
+  <form onSubmit={handleFormSubmit} action="/api/checkout_sessions" method="POST">
+    <input type='hidden' name='plan_id' value={'Recipehub_Random_Recipe'} />
+    <input type='hidden' name='recipeId' value={recipe?._id} />
+    <input type='hidden' name='recipeName' value={recipe?.recipeName} />
+    <section>
+      <button 
+        type="submit" 
+        className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-medium bg-primary text-primary-foreground hover:opacity-95 hover:scale-[1.01] transition-all duration-150 shadow-md shadow-primary/20 text-sm"
+      >
+        Buy Recipe
+      </button>
+    </section>
+  </form>
+</div>
   );
 };
 
