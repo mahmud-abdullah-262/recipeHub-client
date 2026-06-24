@@ -2,70 +2,60 @@ import { getFavoriteRecipes } from '@/lib/action/getFavoriteRecipes';
 import { getSessionData } from '@/lib/action/getSession';
 import React from 'react';
 import {Button, Table} from "@heroui/react";
-import { ArrowUpRightFromSquare } from 'lucide-react';
+import { HeartCrack } from 'lucide-react';
+import {CircleArrowRight} from '@gravity-ui/icons';
+
 import Link from 'next/link';
 import { TrashBin } from '@gravity-ui/icons';
+import { deleteFavoriteRecipe } from '@/lib/action/deleteFavoriteRecipe';
+import FavoriteRecipesClient from '@/app/components/FavoriteRecipes';
 
 const favoritesPage = async () => {
   const user = await getSessionData()
   const userId = user.id;
   const favoriteRecipes = await getFavoriteRecipes(`/app/myFavorites?userId=${userId}`)
   console.log(user, 'favorite recipes')
+  if(favoriteRecipes.length == 0){{
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+      <div className="max-w-md p-8 bg-white dark:bg-zinc-900 rounded-2xl shadow-xl border border-gray-100 dark:border-zinc-800 transition-all">
+        
+        {/* Lucide Icon Container */}
+        <div className="w-20 h-20 bg-red-50 dark:bg-red-950/30 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse">
+          <HeartCrack size={40} strokeWidth={1.5} />
+        </div>
+
+        {/* Text Content */}
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-zinc-100 mb-3">
+          No Favorite Recipes Yet
+        </h2>
+        <p className="text-gray-500 dark:text-zinc-400 mb-8 max-w-sm text-sm leading-relaxed">
+          Your favorites list is currently empty. Explore our collection of delicious recipes and save the ones you love!
+        </p>
+
+        {/* Gravity UI Action Button */}
+        <Link href="/recipes" className="inline-block decoration-none">
+          <Button 
+            view="action" 
+            size="xl" 
+            className="rounded-xl px-8 font-medium shadow-lg shadow-red-500/10 bg-primary"
+          >
+            Browse Recipes
+          </Button>
+        </Link>
+        
+      </div>
+    </div>
+    )
+  }}
+
   return (
     <div className='p-4'>
           <div className='mb-6 space-y-1'>
             <h1 className='text-2xl md:text-3xl lg:text-4xl text-primary font-extralight'>My Favorite Recipes</h1>
           <p className='text-sm font-bold text-secondary'>What I want to make someday</p>
           </div>
-      <Table>
-      <Table.ScrollContainer>
-        <Table.Content aria-label="Team members" className="min-w-[600px]">
-          <Table.Header >
-            <Table.Column className={'text-primary'} isRowHeader>Recipe Name</Table.Column>
-            <Table.Column className={'text-primary'} >Cuisine Type</Table.Column>
-            <Table.Column className={'text-primary'} >Difficulty Level</Table.Column>
-            <Table.Column className={'text-primary'} >Author Name</Table.Column>
-            <Table.Column className={'text-primary'} >Actions</Table.Column>
-          </Table.Header>
-          <Table.Body>
-
- {favoriteRecipes.map(recipe =>
-      <Table.Row key={recipe._id}>
-              <Table.Cell>{recipe.recipeName}</Table.Cell>
-              <Table.Cell>{recipe.cuisineType}</Table.Cell>
-              <Table.Cell>{recipe.difficultyLevel}</Table.Cell>
-              <Table.Cell>{recipe.authorName}</Table.Cell>
-              <Table.Cell>
-                
-                <Link href={`/recipes/${recipe.recipeId}`}><ArrowUpRightFromSquare/></Link> 
-                
-                 <Button 
-                      isIconOnly 
-                      variant="light" 
-                      color="danger" 
-                      aria-label="Delete recipe"
-                      // onClick={async() => 
-                        
-                      //  await deleteRecipe(recipe._id)
-                       
-                      // }
-                    >
-                      <TrashBin width={16} height={16} style={{ color: '#e53935' }} />
-                    </Button>
-                </Table.Cell>
-            </Table.Row>
-        
-       )}
-
-
-      
-
-           
-           
-          </Table.Body>
-        </Table.Content>
-      </Table.ScrollContainer>
-    </Table>
+     <FavoriteRecipesClient favoriteRecipes={favoriteRecipes} > </FavoriteRecipesClient>
         </div>
   );
 };

@@ -13,7 +13,7 @@ export const authHeader = async () => {
 
 // server mutation central function
 export const serverMutate = async (path, data, method = 'POST') => {
-  const isDeleteOrGet = ['GET', 'DELETE'].includes(method.toUpperCase());
+  const isDeleteOrGet = ['GET'].includes(method.toUpperCase());
 const res = await fetch(`${baseUrl}${path}`, {
     method: method.toUpperCase(),
     headers: {

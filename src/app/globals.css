@@ -63,5 +63,6 @@ body {
   min-height: 100vh;
 }
 .active {
-  background-color: #e8e8e8;
+  background-color: #f99f1d;
+  color: white;
 }

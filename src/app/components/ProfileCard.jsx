@@ -177,75 +177,85 @@ export default function ProfileCard({user}) {
     </Card.Footer>
   </Card>
 
-  {/* প্রিমিয়াম কার্ড */}
-  <Card className={`flex-1 flex flex-col justify-between border p-4 rounded-2xl shadow-md transition-all duration-300 ${
-    isPremium 
-      ? "border-amber-500/30 bg-gradient-to-br from-card via-card to-amber-500/5" 
-      : "border-primary/30 bg-gradient-to-br from-card via-card to-primary/10"
-  }`}>
-    
-    {/* Card Header */}
-    <Card.Header className="flex items-center gap-3 pb-3">
-      <div className={`p-2.5 rounded-xl ${
-        isPremium 
-          ? "bg-amber-500/10 text-amber-500" 
-          : "bg-primary/10 text-primary"
-      }`}>
-        <Crown className="w-6 h-6" />
-      </div>
-      <div className='text-center'>
-        <Card.Title className="text-lg font-bold tracking-tight text-foreground">
-          {isPremium ? "Premium Member" : "Upgrade to Premium"}
-        </Card.Title>
-        <Card.Description className="text-xs text-muted">
-          {isPremium ? "Exclusive Access Active" : "Unlock Ultimate Features"}
-        </Card.Description>
-      </div>
-    </Card.Header>
+ {/* প্রিমিয়াম কার্ড */}
+<Card className={`flex-1 flex flex-col justify-between border p-6 rounded-2xl shadow-xl transition-all duration-300 relative overflow-hidden ${
+  isPremium 
+    ? "border-amber-500/30 bg-gradient-to-br from-card via-card to-amber-500/10" 
+    : "border-amber-200/60 dark:border-zinc-800 bg-gradient-to-br from-amber-50/50 to-orange-50/50 dark:from-zinc-950 dark:to-neutral-950"
+}`}>
+  
+  {/* টপ ডেকোরেশন গ্লো (শুধু ফ্রি ইউজারদের আপগ্রেড করার আকর্ষণ বাড়াতে) */}
+  {!isPremium && (
+    <div className="absolute -top-10 -right-10 w-32 h-32 bg-amber-300/10 rounded-full blur-2xl pointer-events-none"></div>
+  )}
 
-    {/* Card Content */}
-    <Card.Content className="py-3 flex-grow">
-      <ul className="space-y-2.5 text-sm text-foreground/90">
-        <li className="flex items-center gap-2">
-          <CheckCircle className="w-4 h-4 text-primary shrink-0" />
-          <span>Unlimited artwork uploads</span>
-        </li>
-        <li className="flex items-center gap-2">
-          <CheckCircle className="w-4 h-4 text-primary shrink-0" />
-          <span>High-resolution 4K asset downloads</span>
-        </li>
-        <li className="flex items-center gap-2">
-          <CheckCircle className="w-4 h-4 text-primary shrink-0" />
-          <span>Priority developer support</span>
-        </li>
-      </ul>
-    </Card.Content>
+  {/* Card Header */}
+  <Card.Header className="flex items-center gap-4 pb-4">
+    <div className={`p-3 rounded-xl transition-transform ${
+      isPremium 
+        ? "bg-amber-500/10 text-amber-500" 
+        : "bg-gradient-to-tr from-amber-400 to-orange-500 text-white shadow-lg shadow-orange-500/20 rotate-2"
+    }`}>
+      <Crown className="w-6 h-6" />
+    </div>
+    <div className="text-left">
+      <Card.Title className="text-xl font-bold tracking-tight text-foreground">
+        {isPremium ? "Premium Member" : "Upgrade to Premium"}
+      </Card.Title>
+      <Card.Description className="text-xs text-muted-foreground mt-0.5">
+        {isPremium ? "Exclusive Access Active" : "Unlock Ultimate Features"}
+      </Card.Description>
+    </div>
+  </Card.Header>
 
-    {/* Card Footer */}
-    <Card.Footer className="pt-4 mt-2 border-t border-border/50">
-      {isPremium ? (
-        <div className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 text-sm border border-amber-500/20">
-          <CheckCircle className="w-4 h-4" />
-        Premium Account  Activated 
-        </div>
-      ) : (
-        
-        <form action="/api/checkout_sessions" method="POST">
-          <input type='hidden' name='plan_id' value={'Recipehub_Premium'}></input>
-      <section>
-        <button type="submit" role="link"
-        className="w-full flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-medium bg-primary text-primary-foreground hover:opacity-95 hover:scale-[1.01] transition-all duration-150 shadow-md shadow-primary/20 text-sm"
-        >
-           Go Premium
-            <ArrowRight className="w-4 h-4" />
-        </button>
-      </section>
-    </form>
-        
-       
-      )}
-    </Card.Footer>
-  </Card>
+  {/* Card Content */}
+  <Card.Content className="py-4 flex-grow">
+    <ul className="space-y-3.5 text-sm text-foreground/90">
+      <li className="flex items-center gap-3">
+        <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" />
+        <span>Unlimited recipe creations & uploads</span>
+      </li>
+      <li className="flex items-center gap-3">
+        <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" />
+        <span>Get a Premium Badge on your profile</span>
+      </li>
+      <li className="flex items-center gap-3">
+        <CheckCircle className="w-5 h-5 text-emerald-500 shrink-0" />
+        <span>Ad-free cooking & browsing experience</span>
+      </li>
+    </ul>
+  </Card.Content>
+
+  {/* Card Footer */}
+  <Card.Footer className="pt-5 mt-2 border-t border-border/50">
+    {isPremium ? (
+      <div className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 text-sm border border-amber-500/20">
+        <CheckCircle className="w-4 h-4" />
+        Premium Account Activated
+      </div>
+    ) : (
+      <div className="w-full">
+        {/* স্ট্রাইপ পেমেন্ট ফর্ম অবিকল রাখা হয়েছে */}
+        <form action="/api/checkout_sessions" method="POST" className="w-full">
+          <input type='hidden' name='plan_id' value={'Recipehub_Premium'} />
+          <section>
+            <button 
+              type="submit" 
+              role="link"
+              className="w-full flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white hover:scale-[1.01] transition-all duration-150 shadow-lg shadow-orange-500/20 text-sm"
+            >
+              Go Premium
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </section>
+        </form>
+        <p className="text-[11px] text-center text-muted-foreground mt-3">
+          Cancel or change your plan anytime.
+        </p>
+      </div>
+    )}
+  </Card.Footer>
+</Card>
 
 </div>
   );
