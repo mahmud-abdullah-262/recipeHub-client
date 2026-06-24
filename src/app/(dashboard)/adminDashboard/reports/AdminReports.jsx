@@ -1,9 +1,57 @@
 'use client'
 
-import { Table, Button, Chip } from '@heroui/react';
+import { deleteRecipeByReport } from '@/lib/action/deleteRecipeByReport';
+import { deleteReport } from '@/lib/action/deleteReport';
+import { Table, Button, Chip, toast } from '@heroui/react';
+import { useRouter } from 'next/navigation';
+
 import React from 'react';
 
 const AdminReports = ({ reports = [] }) => {
+  const router = useRouter()
+
+  const handleRemove = async (reportData) => {
+    try {
+      const upload = await deleteRecipeByReport(`/api/report`, reportData, "DELETE");
+      
+      // এপিআই রেসপন্স সফল হলে সাকসেস টোস্ট দেখাবে এবং পেজ রিফ্রেশ করবে
+      if (upload?.success) {
+        toast.success(upload.message || "Recipe removed successfully!");
+        router.refresh(); 
+      } else {
+        toast.danger(upload?.message || "Something went wrong");
+      }
+    } catch (error) {
+      console.error("Error deleting recipe:", error);
+      toast.danger("Failed to delete recipe");
+    }
+  };
+
+    const handleReportRemove = async (reportData) => {
+    try {
+      const upload = await deleteReport(`/api/reportRemove`, reportData, "DELETE");
+      
+      // এপিআই রেসপন্স সফল হলে সাকসেস টোস্ট দেখাবে এবং পেজ রিফ্রেশ করবে
+      if (upload?.success) {
+        toast.success(upload.message || "Report removed successfully!");
+        router.refresh(); 
+      } else {
+        toast.danger(upload?.message || "Something went wrong");
+      }
+    } catch (error) {
+      console.error("Error deleting report:", error);
+      toast.danger("Failed to delete Report");
+    }
+  };
+ 
+
+   
+  
+
+
+    
+                        
+  
   return (
     <div className=" max-w-7xl mx-auto">
    
@@ -28,25 +76,25 @@ const AdminReports = ({ reports = [] }) => {
               {/* কোনো কালেকশন বা ফাংশন এরর ছাড়া ডাইনামিক ডেটা রেন্ডার করার সবচেয়ে নিরাপদ পদ্ধতি */}
               {reports.map((report) => (
                 <Table.Row 
-                  key={report._id || Math.random().toString()} 
+                  key={report._id} 
                   className="border-b border-gray-100 dark:border-gray-800 last:border-none hover:bg-gray-50/50 transition-colors"
                 >
                   {/* Recipe Title */}
                   <Table.Cell className="font-medium text-gray-900 dark:text-white">
-                    {report.recipeName || "Spicy Beef Rezala"}
+                    {report.recipeName}
                   </Table.Cell>
                   
                   {/* Reporter Details */}
                   <Table.Cell>
                     <div>
-                      <p className="font-medium">{report.reporterName || "Kamrul Hasan"}</p>
-                      <p className="text-xs text-gray-400">{report.reporterEmail || "kamrul@example.com"}</p>
+                      <p className="font-medium">{report.userName || "not found"}</p>
+                      <p className="text-xs text-gray-400">{report.userEmail || "not found"}</p>
                     </div>
                   </Table.Cell>
                   
                   {/* Reason for Report */}
                   <Table.Cell className="max-w-[200px] truncate">
-                    {report.reason || "Misleading recipe and copyright violation."}
+                    {report.reason || "not found"}
                   </Table.Cell>
                   
                   {/* Status Chip */}
@@ -64,7 +112,9 @@ const AdminReports = ({ reports = [] }) => {
                         color="danger" 
                         variant="flat"
                         className="font-medium"
-                        onPress={() => console.log('Remove Recipe', report._id)}
+                     onPress={() => handleRemove(report)}
+                          
+                       
                       >
                         Remove Recipe
                       </Button>
@@ -73,7 +123,7 @@ const AdminReports = ({ reports = [] }) => {
                         color="default" 
                         variant="light"
                         className="font-medium text-gray-500 hover:text-gray-700"
-                        onPress={() => console.log('Dismiss Report', report._id)}
+                         onPress={() => handleReportRemove(report)}
                       >
                         Dismiss Report
                       </Button>

@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { EditRecipe } from './EditRecipe';
 import { deleteRecipe } from '@/lib/action/deleteRecipe';
 
+
 export default function MyRecipes({recipes, user}) {
  
   console.log(recipes, 'recipe form my recipe')
