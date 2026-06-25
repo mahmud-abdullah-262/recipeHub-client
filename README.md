@@ -44,8 +44,8 @@ https://recipehub-client-iota.vercel.app/
 
 ## 📂 Related Repositories
 
-- **Client Repo:** [GitHub Link](#) <!-- Replace with your client repo URL -->
-- **Server Repo:** [GitHub Link](#) <!-- Replace with your server repo URL -->
+- **Client Repo:** [https://github.com/mahmud-abdullah-262/recipeHub-client](#) <!-- Replace with your client repo URL -->
+- **Server Repo:** [https://github.com/mahmud-abdullah-262/recipeHub-server](#) <!-- Replace with your server repo URL -->
 
 ## ⚙️ Getting Started (Local Setup)
 
@@ -81,8 +81,8 @@ https://recipehub-client-iota.vercel.app/
 
 ## 👤 Admin Credentials (for testing/review)
 
-- **Email:** admin@example.com <!-- Replace with actual admin email -->
-- **Password:** ******** <!-- Replace with actual admin password -->
+- **Email:** admin@recipehub.com <!-- Replace with actual admin email -->
+- **Password: 123456aA <!-- Replace with actual admin password -->
 
 ## 📌 Notes
 
