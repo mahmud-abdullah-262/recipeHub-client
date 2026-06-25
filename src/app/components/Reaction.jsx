@@ -6,9 +6,12 @@ import { Button, toast, Tooltip } from '@heroui/react';
 import { Heart } from 'lucide-react';
 import React from 'react';
 import { ReportRecipe } from './ReportRecipe';
+import { makeLiked } from '@/lib/action/makeLiked';
+import { useRouter } from 'next/navigation';
 
 // এখানে userEmail প্রপস হিসেবে পাস করতে পারেন অথবা আপনার কনটেক্সট থেকে নিতে পারেন
 const Reaction = ({ user, recipe }) => {
+  const router = useRouter()
 
   const handleFavorite = async () => {
     const favoriteRecipe = {
@@ -65,6 +68,29 @@ const Reaction = ({ user, recipe }) => {
   }
 };
 
+const handleLike = async () => {
+  const likedRecipe = {
+      recipeId: recipe._id,
+      userId : user.id,
+      creatorId : recipe.authorId
+    }
+    try {
+      const uploadData = await makeLiked('/app/liked', likedRecipe)
+      console.log(uploadData, 'data from client');
+      
+      if (uploadData.success) {
+        toast.success(uploadData.message || "Recipe Liked successfully!");
+        router.refresh()
+      } else {
+        toast.danger(uploadData.message)
+      }
+    } catch (error) {
+      toast.error(error?.message || "Failed to Like recipe.");
+    } finally {
+      console.log("Submission process completed.");
+    }
+}
+
   return (
   <div>
   <div className="flex gap-2 mb-4">
@@ -75,6 +101,7 @@ const Reaction = ({ user, recipe }) => {
           isIconOnly
           variant="light"
           className="text-muted hover:text-primary transition-colors"
+          onClick={handleLike}
         >
           <ThumbsUpFill className="w-6 h-6 fill-primary text-primary" />
         </Button>

@@ -35,7 +35,7 @@ const RecipesPage = async ({ searchParams }) => {
        <div className='mb-6 space-y-1'>
         <h1 className='text-2xl md:text-3xl lg:text-4xl text-primary font-extralight'>Browse Recipes</h1>
         <p className='text-sm font-bold text-secondary'>Best Recipe for Your Next Meal!</p>
-        <h1>Total Recipe found: {totalData}</h1>
+        <h1>Total {totalData} Recipes found {category ? `in ${category} category` : ""}</h1>
       </div> 
 
      <CategoryFilter category={category}></CategoryFilter>
