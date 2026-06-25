@@ -44,6 +44,11 @@ export const auth = betterAuth({
       defaultValue: false,
       input: false, 
     },
+    likesCount: {
+      type: Number,
+      defaultValue: 0,
+      input: false, 
+    },
   },
 },
  plugins: [

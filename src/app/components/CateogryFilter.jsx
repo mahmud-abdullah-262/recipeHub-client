@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 
 const categories = [
-  "Main Course",
+  "MainCourse",
   "Appetizer",
   "Breakfast",
   "Soup",
@@ -27,8 +27,9 @@ const CategoryFilter = ({category}) => {
 
  const router = useRouter();
   const searchParams = useSearchParams();
-  console.log(searchParams.toString(), "searchParams")
 
+
+ 
    const handleCategory = (newCategory) => {
     if (newCategory == "") return;
 
@@ -41,7 +42,7 @@ const CategoryFilter = ({category}) => {
 
   return (
      <div>
-         <Select className="w-[256px]" placeholder="Select one">
+         <Select className="w-[256px]" placeholder={"Select One"}>
       <Label className='font-extralight text-xl text-primary text-center'>Category</Label>
       <Select.Trigger>
         <Select.Value />

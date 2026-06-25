@@ -80,7 +80,9 @@ export default function ProfileCard({user}) {
             {userData?.name}
           </Card.Title>
           <Card.Description className="text-sm font-medium text-muted uppercase tracking-wider">
+
             {userData?.role}
+           
 
             {userData?.plan == 'free' ?
             <Chip variant="primary">
@@ -93,6 +95,8 @@ export default function ProfileCard({user}) {
           <Chip.Label>{userData.plan}</Chip.Label>
         </Chip>
             }
+
+             {userData?.likesCount ? `LikeCount: ${userData?.likesCount}` : ""}
           </Card.Description>
         </div>
       </div>
