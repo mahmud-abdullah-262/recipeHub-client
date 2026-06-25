@@ -4,6 +4,7 @@ import { Button } from '@heroui/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'motion/react';
+const words = ["Cook", "Share", "Inspire."];
 
 const Banner = () => {
   return (
@@ -44,10 +45,22 @@ const Banner = () => {
             className='w-24 h-24 md:w-32 md:h-32 lg:w-36 lg:h-36'
           />
         </motion.div>
-
-        <h1 className='text-4xl md:text-6xl lg:text-8xl font-black text-primary leading-8 md:leading-12 lg:leading-20'>
-          Cook <br /> Share <br /> Inspire.
-        </h1>
+<motion.h1
+  className="text-4xl md:text-6xl lg:text-8xl font-black text-primary leading-8 md:leading-12 lg:leading-20"
+  animate={{
+    y: [0, -6, 0],
+  }}
+  transition={{
+    duration: 6,
+    repeat: Infinity,
+    repeatType: "mirror",
+    ease: "easeInOut",
+  }}
+>
+  Cook <br />
+  Share <br />
+  Inspire.
+</motion.h1>
 
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <Link href='/recipes'>

@@ -26,7 +26,7 @@ const RecipeList = ({ totalData, currentPage, size }) => {
   if (totalPages <= 1) return null;
 
   return (
-   <div className="flex flex-col sm:flex-row items-center justify-between gap-4 w-full border-t border-divider pt-4 mt-6">
+   <div className="flex flex-col sm:flex-row items-center justify-between gap-4 w-11/12 mx-auto border-t border-divider pt-4 mt-6">
       {/* সামারি সেকশন (সাধারণ div দিয়ে করা, তাই কোনো স্ক্রিপ্ট এরর আসবে না) */}
       <div className="text-sm text-default-500">
         Showing <span className="font-semibold text-foreground">{startItem}</span> to{" "}

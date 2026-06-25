@@ -3,9 +3,12 @@ import React from 'react';
 import AdminUsersPage from './AdminUsersPage';
 import { AlertCircle } from 'lucide-react';
 
+
+
 const page = async () => {
   const data = await getUsers();
     const users = data.users;
+      
 
     if(users.length == 0){
     return (
@@ -25,6 +28,7 @@ const page = async () => {
   return (
     <div>
       <AdminUsersPage users={users}/>
+        
     </div>
   );
 };
