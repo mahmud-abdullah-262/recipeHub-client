@@ -41,7 +41,7 @@ const Navbar =  ({user})  => {
       <div className='flex-shrink-0'>
         <Link href={'/'}>
         <Image
-        src={'/images/recipehub-logo.png'}
+        src={'/images/recipehub logo.svg'}
         height={100}
         width={500}
         alt='logo'

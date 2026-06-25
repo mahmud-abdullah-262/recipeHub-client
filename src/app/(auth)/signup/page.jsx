@@ -40,7 +40,6 @@ const SignUpPage = () => {
         password,
         name,
         image: photo,
-        role: 'user',
         callbackURL: "/",
       });
 
@@ -93,7 +92,7 @@ const SignUpPage = () => {
       <div className='flex flex-col items-start space-x-0 justify-between '>
         <h1 className='text-md font-light text-primary'>Welcome to</h1>
         <Image
-        src={'/images/recipehub-logo.png'}
+        src={'/images/recipehub logo.svg'}
         width={200}
         height={100}
         alt='logo'
@@ -193,7 +192,7 @@ const SignUpPage = () => {
       <div className="flex gap-2 w-full max-w-xs">
         <Button type="submit" className={'bg-primary flex-1'}>
           <Check />
-          Sign In
+          Sign Up
         </Button>
         <Button type="reset" variant="secondary" className={'text-primary flex-1'}>
           Reset
