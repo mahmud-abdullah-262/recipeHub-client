@@ -24,10 +24,10 @@ const RecipesPage = async ({ searchParams }) => {
 
   // ব্যাকএন্ড API-তে কুয়েরি প্যারামিটারসহ হিট করা
   const data = await serverFetch(`/api/recipes?page=${page}&size=${size}&category=${category}`);
-  
+ 
   const recipes = data?.recipes || [];
   const totalData = data?.totalRecipes || 0;
-
+ console.log(data, recipes, totalData, 'data from recipe page')
   return (
     <div className='w-11/12 mx-auto'>
 

@@ -1,15 +1,20 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
 import { getSessionData } from '@/lib/action/getSession';
+import Footer from '../components/Footer';
 
 
 const MainLayout = async ({children}) => {
 const user = await getSessionData()
   return (
-    <>
-    <Navbar user={user}></Navbar>
+    <div>
+       <Navbar user={user}></Navbar>
    {children}
-    </>
+  
+   <Footer></Footer>
+    </div>
+   
+  
    
   );
 };

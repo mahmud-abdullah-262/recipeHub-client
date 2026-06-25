@@ -2,6 +2,7 @@ import { Outfit, Radio_Canada } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "next-themes";
 import { Toast } from "@heroui/react";
+import Footer from "./components/Footer";
 
 const radioCanada = Radio_Canada({
   variable: "--font-Radio-Canada",
