@@ -55,7 +55,7 @@ const Featured = ({ recipes = [] }) => {
       <div className="text-center mb-10 space-y-2">
         <motion.h2 
           initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           className="text-3xl md:text-4xl font-extrabold tracking-tight text-primary"
         >
@@ -63,7 +63,7 @@ const Featured = ({ recipes = [] }) => {
         </motion.h2>
         <motion.div 
           initial={{ width: 0 }}
-          animate={{ width: "80px" }}
+          whileInView={{ width: "80px" }}
           transition={{ delay: 0.3, duration: 0.5 }}
           className="h-1 bg-amber-500 mx-auto rounded-full"
         />
