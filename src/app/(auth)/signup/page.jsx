@@ -92,7 +92,7 @@ const SignUpPage = () => {
       <div className='flex flex-col items-start space-x-0 justify-between '>
         <h1 className='text-md font-light text-primary'>Welcome to</h1>
         <Image
-        src={'/images/recipehub logo.svg'}
+        src={'/images/recipehub_logo_2.png'}
         width={200}
         height={100}
         alt='logo'

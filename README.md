@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# RecipeHub 🍳
 
-## Getting Started
+RecipeHub is a full-stack recipe-sharing platform where users can discover, share, and manage their favorite recipes. Users can browse recipes by category, save favorites, purchase premium recipes, and upgrade to a premium membership for unlimited recipe uploads. Admins get a dedicated dashboard to manage users, recipes, and reports.
 
-First, run the development server:
+## 🔗 Live Site
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+https://recipehub-client-iota.vercel.app/
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Features
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- 🔐 **Authentication & Authorization** — Email/password and Google login powered by Better Auth, with role-based access control (User / Admin)
+- 🍲 **Recipe Management** — Create, update, and delete recipes with image upload via Cloudinary
+- 🔢 **Recipe Limit** — Free users can add up to 2 recipes; premium users get unlimited uploads
+- 🔍 **Browse & Filter** — Server-side pagination and category filtering for recipe discovery
+- ❤️ **Favorites & Likes** — Save recipes to favorites and like your favorite dishes
+- 🚩 **Report System** — Report inappropriate recipes with a reason (spam, offensive content, copyright issue)
+- 💳 **Stripe Integration** — Purchase individual recipes or upgrade to premium membership securely
+- 🧑‍🍳 **User Dashboard** — Overview of your recipes, favorites, and likes received, plus profile management
+- 🛠️ **Admin Dashboard** — Manage users (block/unblock), manage recipes (edit/delete/feature), review reports, and view all transactions
+- 🌗 **Dark/Light Mode** — Theme toggle available across the entire app
+- 🎬 **Smooth Animations** — Framer Motion animations on the home page
+- 📱 **Fully Responsive** — Optimized for mobile, tablet, and desktop
+- 🚫 **Custom 404 Page** — Friendly error page for unmatched routes
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
 
-## Learn More
+**Client**
+- Next.js (App Router)
+- Tailwind CSS
+- HeroUI
+- Framer Motion
+- Better Auth (client)
 
-To learn more about Next.js, take a look at the following resources:
+**Server**
+- Express.js
+- MongoDB
+- Better Auth
+- Stripe
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**Other Tools**
+- Cloudinary (image hosting)
+- Vercel (client deployment)
+- Render (server deployment)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📂 Related Repositories
 
-## Deploy on Vercel
+- **Client Repo:** [GitHub Link](#) <!-- Replace with your client repo URL -->
+- **Server Repo:** [GitHub Link](#) <!-- Replace with your server repo URL -->
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ⚙️ Getting Started (Local Setup)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Clone the repository**
+   ```bash
+   git clone <client-repo-url>
+   cd recipehub-client
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
+
+   Create a `.env.local` file in the root directory and add:
+   ```env
+   NEXT_PUBLIC_SERVER_URL=your_server_base_url
+   NEXT_PUBLIC_BETTER_AUTH_URL=your_better_auth_url
+   NEXT_PUBLIC_Cloudinary_API_KEY=your_Cloudinary_api_key
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+   ```
+
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+> ⚠️ Make sure the [server repository](#) is set up and running first, since the client depends on it for authentication and API requests.
+
+## 👤 Admin Credentials (for testing/review)
+
+- **Email:** admin@example.com <!-- Replace with actual admin email -->
+- **Password:** ******** <!-- Replace with actual admin password -->
+
+## 📌 Notes
+
+- Authentication and session tokens are handled entirely through **Better Auth** (no separate JWT implementation).
+- All sensitive credentials (database URI, Better Auth secret, Stripe keys, Cloudinary key) are secured via environment variables and are not exposed in the codebase.
+- The app has been tested for responsiveness across mobile, tablet, and desktop, with no CORS, 404, or 504 errors on production routes.
+- Authentication state persists correctly across page refreshes.
+
+## 📄 License
+
+This project was built as part of an academic assignment and is intended for educational/demo purposes.

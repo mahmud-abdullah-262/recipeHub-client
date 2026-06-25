@@ -24,7 +24,7 @@ const Footer = () => {
         {/* Column 1: Logo & About */}
         <div className="flex flex-col mx-auto space-y-1 items-center">
           <Image
-            src="/images/recipehub logo.svg"
+            src="/images/recipehub_logo_2.png"
             width={140}
             height={50}
             alt="RecipeHub Logo"

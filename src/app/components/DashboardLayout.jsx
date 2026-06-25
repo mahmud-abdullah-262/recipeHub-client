@@ -67,7 +67,7 @@ const DashboardLayout = ({user}) => {
 <div className="p-4">
      <Link href={'/'}>
     <Image
-    src={'/images/recipehub logo.svg'}
+    src={'/images/recipehub_logo_2.png'}
     width={200}
     height={100}
     alt="logo"
