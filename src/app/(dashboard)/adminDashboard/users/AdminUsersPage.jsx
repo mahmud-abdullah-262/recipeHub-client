@@ -4,8 +4,9 @@ import React, { useState } from 'react';
 import { Button, Table, toast } from '@heroui/react';
 import { blockUser } from '@/lib/action/blockUser';
 import { useRouter } from 'next/navigation';
+import RecipeList from '@/app/components/RecipeList';
 
- const AdminUsersPage = ({users}) => {
+ const AdminUsersPage = ({users,  searchParams }) => {
   
  const router = useRouter()
 
@@ -116,6 +117,8 @@ import { useRouter } from 'next/navigation';
           {/* Optional Footer Content */}
         </Table.Footer>
       </Table>
+
+    
     </div>
   );
 };

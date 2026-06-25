@@ -3,11 +3,26 @@ import AdminRecipes from './AdminRecipes';
 import { serverFetch } from '@/lib/action/core/serverFetch';
 import { getSessionData } from '@/lib/action/getSession';
 import { AlertCircle } from 'lucide-react';
+import RecipeList from '@/app/components/RecipeList';
 
-const page = async () => {
-  const data = await serverFetch('/api/recipes');
-  const recipes = data?.recipes
+const page = async ({searchParams}) => {
   const user = await getSessionData()
+  // searchParams-কে await করতে হবে (Next.js 15+ নিয়মানুযায়ী)
+        const resolvedSearchParams = await searchParams;
+        
+        // URL থেকে page এবং size নেওয়া, না থাকলে ডিফল্ট মান ১ এবং ১০
+        const page = resolvedSearchParams.page || '1';
+        const size = 6;
+        
+        // সামনে ফিল্টারিং এর জন্য সার্চ বা ক্যাটাগরিও এখান থেকে নিতে পারবেন
+        const category = resolvedSearchParams.category || ''; 
+      
+        // ব্যাকএন্ড API-তে কুয়েরি প্যারামিটারসহ হিট করা
+        const recipeData = await serverFetch(`/api/recipes?page=${page}&size=${size}&category=${category}`);
+       
+        const recipes = recipeData?.recipes || [];
+        const totalData = recipeData?.totalRecipes || 0;
+       console.log(recipeData, recipes, totalData, 'data from recipe page')
 
   if(recipes.length == 0){
     return (
@@ -26,6 +41,11 @@ const page = async () => {
   return (
     <div>
       <AdminRecipes recipes={recipes} user={user} > </AdminRecipes>
+       <RecipeList 
+          totalData={totalData} 
+          currentPage={parseInt(page)} 
+          size={parseInt(size)} 
+        />
     </div>
   );
 };
