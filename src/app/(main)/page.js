@@ -4,6 +4,7 @@ import { getSessionData } from "@/lib/action/getSession";
 import Banner from "../components/Banner";
 import Featured from "../components/Featured";
 import { serverFetch } from "@/lib/action/core/serverFetch";
+import MostLiked from "../components/MostLiked";
 
 
 export default async function Home() {
@@ -13,6 +14,7 @@ export default async function Home() {
     <>
      <Banner></Banner>
  <Featured recipes={recipes}></Featured>
+ <MostLiked></MostLiked>
     </>
 
   );
