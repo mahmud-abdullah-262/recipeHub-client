@@ -12,9 +12,11 @@ const RecipeDetailsPage = async ({params}) => {
   
   const {id} = await params
   const recipe = await protectedFetch(`/api/recipes/${id}`)
+ console.log(recipe, 'recipe')
+
   const user = await getSessionData()
   const userId = user.id;
-  
+ 
 
 
 
@@ -28,8 +30,8 @@ const RecipeDetailsPage = async ({params}) => {
           {/* বাম পাশ: ইমেজ সেকশন */}
           <div className="relative h-[250px] sm:h-[350px] md:h-full min-h-[300px] rounded-xl overflow-hidden border border-border">
             <Image
-              src={recipe.recipeImage}
-              alt={recipe.recipeName}
+              src={recipe?.recipeImage}
+              alt={recipe?.recipeName}
               width={500}
               height={500}
               className="absolute inset-0 w-full h-full object-cover"
@@ -39,7 +41,7 @@ const RecipeDetailsPage = async ({params}) => {
                 className="bg-primary text-primary-foreground font-bold"
                 size="sm"
               >
-                {recipe.category}
+                {recipe?.category}
               </Chip>
             </div>
           </div>
@@ -50,7 +52,7 @@ const RecipeDetailsPage = async ({params}) => {
               {/* শিরোনাম এবং লাইক */}
               <div className="flex justify-between items-start gap-4">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-foreground capitalize tracking-tight">
-                  {recipe.recipeName}
+                  {recipe?.recipeName}
                 </h1>
                <Reaction user={user}  recipe={recipe} ></Reaction>
                 
@@ -58,7 +60,7 @@ const RecipeDetailsPage = async ({params}) => {
 
               {/* অথর ও রিয়েক্ট কাউন্ট */}
               <p className="text-xs sm:text-sm text-muted mt-1">
-                By <span className="font-medium text-foreground">{recipe.authorName}</span> • {recipe.likesCount} Likes
+                By <span className="font-medium text-foreground">{recipe?.authorName}</span> • {recipe?.likesCount} Likes
               </p>
 
               {/* কুইক মেটা ডাটা গ্রিড (টাইম, ডিফিকাল্টি ইত্যাদি) */}
@@ -87,7 +89,7 @@ const RecipeDetailsPage = async ({params}) => {
                 Ingredients
               </h2>
               <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-                {recipe?.ingredients.map((item, index) => (
+                {recipe?.ingredients?.map((item, index) => (
                   <li key={index} className="flex items-center gap-2 text-muted">
                     <div className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
                     <span>{item}</span>

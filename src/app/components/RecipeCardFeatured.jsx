@@ -3,7 +3,7 @@ import {Heart} from '@gravity-ui/icons'; // লাইক আইকনের জ�
 import Image from "next/image";
 import Link from "next/link";
 
-export default function RecipeCard({ recipe }) {
+export default function RecipeCardFeatured({ recipe }) {
   console.log(recipe._id, 'from brows recipe')
   const { recipeName, cuisineType, likesCount, reicpeId } = recipe;
 
@@ -45,7 +45,7 @@ export default function RecipeCard({ recipe }) {
         </div>
 
         {/* ডিটেইলস পেজে যাওয়ার বাটন */}
-        <Link href={`/recipes/${recipe._id}`}>
+        <Link href={`/recipes/${recipe?.recipeId}`}>
          <Button 
           className="bg-primary text-primary-foreground font-medium hover:opacity-90"
           size="sm"

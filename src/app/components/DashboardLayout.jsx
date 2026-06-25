@@ -62,7 +62,7 @@ const DashboardLayout = ({user}) => {
 
 
     {/* ডেস্কটপ ভিউ */}
-    <aside className="hidden md:flex flex-col justify-between border-r border-default h-screen w-64">
+    <aside className="hidden bg-background md:flex flex-col justify-between border-r border-default h-screen w-64">
 
 <div className="p-4">
      <Link href={'/'}>
