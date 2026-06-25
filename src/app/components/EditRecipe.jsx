@@ -69,9 +69,7 @@ export function EditRecipe({recipe, user}) {
     .map((item) => item.trim())
     .filter((item) => item !== "");
   
-  if (cleanIngredients.length === 0) {
-    toast.danger('at least 1 ingredient needed.')
-  }
+ 
   
   
   

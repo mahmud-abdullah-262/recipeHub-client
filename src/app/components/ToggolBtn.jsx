@@ -1,70 +1,44 @@
 "use client";
 
-import {
-
-  Moon,
- 
-  Sun
-} from "@gravity-ui/icons";
-import {Switch} from "@heroui/react";
-import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-
-
-
-
-
+import { useTheme } from "next-themes";
+import { Check, Power } from "@gravity-ui/icons";
+import { Moon, Sun } from "lucide-react";
 
 export function ToggolBtn() {
-const {theme, setTheme} = useTheme();
-const [mounted, setMounted] = useState(false);
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-useEffect(() => {
-  setMounted(true);
-}, []);
+  // হাইড্রেশন এরর এড়াতে মাউন্ট হওয়া পর্যন্ত অপেক্ষা করুন
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-if (!mounted) return null;  
+  if (!mounted) return null;
 
-  const icons = {
-  
-    darkMode: {
-      off: Moon,
-      on: Sun,
-      selectedControlClass: "",
-    },
-  
-  };
+  // বর্তমান থিম ডার্ক কিনা তা চেক করা হচ্ছে
+  const isDark = theme === "dark";
 
   return (
-    <>
-
-   <Switch 
-  isSelected={theme === "dark"}
-  onChange={(isSelected) => setTheme(isSelected ? "dark" : "light")}
->
-  {({isSelected}) => (
-    <>
-      <Switch.Control
-        className={`h-7.75 w-12.75 bg-primary ${isSelected ? "bg-bg-card shadow-[0_0_12px_rgba(6,182,212,0.5)]" : ""}`}
+    <button
+      aria-label="Toggle Theme"
+      className={`relative inline-flex items-center h-[31px] w-[51px] rounded-full p-1 transition-colors ${
+        isDark ? "bg-primary shadow-[0_0_12px_rgba(6,182,212,0.5)]" : "bg-secondary"
+      }`}
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+    >
+      <span className="sr-only">Toggle Theme</span>
+      <span
+        className={`size-[27px] bg-white rounded-full shadow-sm flex items-center justify-center transition-transform ${
+          isDark ? "translate-x-[22px] shadow-lg" : ""
+        }`}
       >
-        <Switch.Thumb
-          className={`size-6.75 bg-white shadow-sm ${isSelected ? "ms-5.5 shadow-lg" : ""}`}
-        >
-          <Switch.Icon>
-            {isSelected ? (
-              <Sun className="size-4 text-primary" />
-            ) : (
-              <Moon className="size-4 text-primary" />
-            )}
-          </Switch.Icon>
-        </Switch.Thumb>
-      </Switch.Control>
-    </>
-  )}
-</Switch>
-    </>
-    
-
-    
+        {isDark ? (
+          <Moon className="size-4 text-primary" />
+        ) : (
+          <Sun className="size-4 text-secondary" />
+        )}
+      </span>
+    </button>
   );
 }

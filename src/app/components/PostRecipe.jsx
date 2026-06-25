@@ -91,9 +91,9 @@ const cleanIngredients = ingredients
   .map((item) => item.trim())
   .filter((item) => item !== "");
 
-if (cleanIngredients.length === 0) {
-  toast.danger('at least 1 ingredient needed.')
-}
+// if (cleanIngredients.length === 0) {
+//   toast.danger('at least 1 ingredient needed.')
+// }
 
 
 
