@@ -45,7 +45,7 @@ const Banner = () => {
           />
         </motion.div>
 
-        <h1 className='text-4xl md:text-6xl lg:text-8xl font-black text-primary leading-8 md:leading-12 lg:leading-20'>
+        <h1 className='text-5xl md:text-6xl lg:text-8xl font-black text-primary leading-8 md:leading-12 lg:leading-20'>
           Cook <br /> Share <br /> Inspire.
         </h1>
 
